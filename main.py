@@ -1,7 +1,6 @@
 import XInput as xi
 import mouse as ms
 import keyboard as kb
-import math
 
 #   https://www.thepythoncode.com/article/control-mouse-python
 #   https://pypi.org/project/XInput-Python/
@@ -46,6 +45,12 @@ def main():
     x_screen = 2560
     y_screen = 1440
 
+    #   zoom_lower, zoom_mid, and zoom_upper are responsible for defining the stepping
+    #   rates for each boundary range; tied to the stick displacement value.
+    zoom_lower = 0.0085
+    zoom_mid = 0.02
+    zoom_upper = 0.04
+
     #   Primary "Discovery" Loop.
     while True:
 
@@ -77,7 +82,8 @@ def main():
 
                 #   Sets the deadzone value for the left stick. The default deadzone
                 #   is 7489, and anything below 1000 is intolerable in terms of drag.
-                xi.set_deadzone(xi.DEADZONE_LEFT_THUMB, 1200)
+                xi.set_deadzone(xi.DEADZONE_LEFT_THUMB, 1300)
+                xi.set_deadzone(xi.DEADZONE_RIGHT_THUMB, 1200)
 
             #   Logic Segment
 
@@ -116,6 +122,16 @@ def main():
                         if i.button == "BACK":
                             return
 
+                        #   Debug feature for quick program rebuild
+                        if i.button == "DPAD_DOWN":
+                            kb.press_and_release('shift+f10')
+
+                        #   Handles whatever is bound to start - used for feature testing
+                        if i.button == "START":
+                            print("Start Button Pressed; testing function called.")
+
+                            print("Test function completed")
+
                 #   Makes calls to cursor_update, which returns new mouse positional
                 #   arguments.
                 x_offset = cursor_update(x_screen, xi.get_thumb_values(xi.get_state(0))[0][0], x_offset, x_sens,
@@ -126,8 +142,9 @@ def main():
                 #   Moves the cursor, according to the thumb sticks.
                 ms.move(x_offset, y_offset, True, 0)
 
-                #   Moves the scroll wheel, according to the right thumb stick.
-                ms.wheel(xi.get_thumb_values(xi.get_state(0))[1][1] / 100)
+                #   Makes call to wheel_update as a means of determining which
+                #   step 'speed' should be applied to the active scrolling.
+                ms.wheel(wheel_update(xi.get_thumb_values(xi.get_state(0))[1][1], zoom_lower, zoom_mid, zoom_upper))
 
             except xi.XInputNotConnectedError:
                 continue
@@ -140,7 +157,8 @@ def main():
 
 
 #   Determining the value by which the mouse should be moved is a common operation,
-#   so cursor_update is intended to reduce unneeded code.
+#   so cursor_update is intended to reduce unneeded code. This function returns numeric
+#   displacement values.
 #
 #   Params
 #   screen_max  :   defines the maximum value that the screen reaches on this axis.
@@ -167,6 +185,40 @@ def cursor_update(screen_max, stick_value, offset, sens, accel, bound):
         return offset + (stick_value * (sens + accel))
     else:
         return offset + (stick_value * sens)
+
+
+#   wheel_update is a function definition primarily used to reduce code clutter
+#   within main. This function doesn't update the mouse wheel directly, it just
+#   computes the step value and returns it.
+#
+#   Params
+#   stick_value     :   is the value displacement of the sticks y axis.
+#   lower           :   is the scroll rate for the lower bound.
+#   mid             :   is the scroll rate for the mid bound.
+#   upper           :   is the scroll rate for the upper bound.
+def wheel_update(stick_value, lower, mid, upper):
+
+    if 0.2 <= abs(stick_value) < 0.4:
+        print("lower")
+        if stick_value > 0:
+            return lower
+        else:
+            return -lower
+    elif 0.4 <= abs(stick_value) < 0.9:
+        print("mid")
+        if stick_value > 0:
+            return mid
+        else:
+            return -mid
+    elif 0.9 <= abs(stick_value) <= 1.0:
+        print("upper")
+        if stick_value > 0:
+            return upper
+        else:
+            return -upper
+    else:
+        print("none")
+        return 0
 
 
 main()

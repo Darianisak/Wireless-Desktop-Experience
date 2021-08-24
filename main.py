@@ -43,7 +43,7 @@ def main():
 
     #   x_screen and y_screen are used to define screen space boundaries for mouse
     #   control.
-    x_screen = 2160
+    x_screen = 2560
     y_screen = 1440
 
     #   Primary "Discovery" Loop.
@@ -116,28 +116,12 @@ def main():
                         if i.button == "BACK":
                             return
 
-                #   Handles moving the cursor based on the thumb sticks
-
-                #   Computes the offset values. As the sticks poll between 1 and -1
-                #   with the 1 values representing max displacement, we can do an
-                #   acceleration bump at a defined range.
-
-                if abs(xi.get_thumb_values(xi.get_state(0))[0][0]) > x_bound and x_offset >= 0 <= x_screen:
-                    x_offset = x_offset + (xi.get_thumb_values(xi.get_state(0))[0][0] * (x_sens + x_accel))
-                elif x_offset >= 0 <= x_screen:
-                    x_offset = x_offset + (xi.get_thumb_values(xi.get_state(0))[0][0] * x_sens)
-
-                if abs(xi.get_thumb_values(xi.get_state(0))[0][1]) > y_bound and y_offset >= 0 <= y_screen:
-                    y_offset = y_offset - (xi.get_thumb_values(xi.get_state(0))[0][1] * (y_sens + y_accel))
-                elif y_offset >= 0 <= y_screen:
-                    y_offset = y_offset - (xi.get_thumb_values(xi.get_state(0))[0][1] * y_sens)
-
                 #   Makes calls to cursor_update, which returns new mouse positional
                 #   arguments.
-                #x_offset = cursor_update(x_screen, xi.get_thumb_values(xi.get_state(0))[0][0], x_offset, x_sens,
-                                            # x_accel, x_bound)
-               # y_offset = cursor_update(y_screen, xi.get_thumb_values(xi.get_state(0))[0][1], y_offset, y_sens,
-                                            # y_accel, y_bound)
+                x_offset = cursor_update(x_screen, xi.get_thumb_values(xi.get_state(0))[0][0], x_offset, x_sens,
+                                         x_accel, x_bound)
+                y_offset = cursor_update(y_screen, -xi.get_thumb_values(xi.get_state(0))[0][1], y_offset, y_sens,
+                                         y_accel, y_bound)
 
                 #   Moves the cursor, according to the thumb sticks.
                 ms.move(x_offset, y_offset, True, 0)
@@ -169,11 +153,11 @@ def cursor_update(screen_max, stick_value, offset, sens, accel, bound):
 
     #   Default case whereby the current offset is equivalent to the screen_max
     #   or screen min value, 0, so just return the current offset
-    if offset <= 0:
+    if offset < 0:
         #   This return is mindful that problems can arise, so should return
         #   the lowest actual possible value, which may not be the current offset.
         return 0
-    elif offset >= screen_max:
+    elif offset > screen_max:
         #   Likewise, this is mindful that offset could be beyond the actual max.
         return screen_max
 

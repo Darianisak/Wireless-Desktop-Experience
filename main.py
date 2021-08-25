@@ -115,22 +115,41 @@ def main():
 
                         #   Handles events related to the 'Y' Button.
                         if i.button == 'Y':
-                            #   TODO Needs to be refactored, maybe use TKinter? https://stackoverflow.com/questions/22519755/python-on-screen-keyboard
-                            kb.press_and_release('windows+control+o')
+                            kb.press('enter')
 
-                        #   Handles closing the application from the controller
-                        if i.button == "BACK":
-                            return
+                        #   Handles events tied to DPAD_UP
+                        if i.button == "DPAD_UP":
+                            kb.press_and_release('n+e+t+f+l+i+x+.+c+o+m')
 
-                        #   Debug feature for quick program rebuild
+                        #   Handles events tied to DPAD_LEFT
+                        if i.button == "DPAD_LEFT":
+                            kb.press_and_release('f+a+c+e, b+o+o+k+.+c+o+m')
+
+                        #   Handles events tied to DPAD_RIGHT
+                        if i.button == "DPAD_RIGHT":
+                            kb.press_and_release('d+i+s+c+o+r+d+.+c+o+m+/+l+o+g+i+n')
+
+                        #   Handles events tied to DPAD_DOWN
                         if i.button == "DPAD_DOWN":
+                            kb.press_and_release('d+i+s+n+e+y+p+l+u+s+.+c+o+m+/+e+n+-+g+b+/+s+e+l+e+c+t+-+p+r+o+f+i+l+e')
+
+                        #   Handles events tied to the left bumper.
+                        if i.button == "LEFT_SHOULDER":
+                            kb.press_and_release('space, ctrl+q')
+
+                        #   Handles events tied to the right bumper.
+                        if i.button == "RIGHT_SHOULDER":
+                            #   Used to create new web tabs
+                            kb.press_and_release('space, ctrl+t')
+
+                        #   Handles events tied to START button.
+                        if i.button == "START":
+                            #   This function is only supported in IDE run mode.
                             kb.press_and_release('shift+f10')
 
-                        #   Handles whatever is bound to start - used for feature testing
-                        if i.button == "START":
-                            print("Start Button Pressed; testing function called.")
-
-                            print("Test function completed")
+                        #   Handles events tied to BACK button.
+                        if i.button == "BACK":
+                            return
 
                 #   Makes calls to cursor_update, which returns new mouse positional
                 #   arguments.
@@ -199,25 +218,21 @@ def cursor_update(screen_max, stick_value, offset, sens, accel, bound):
 def wheel_update(stick_value, lower, mid, upper):
 
     if 0.2 <= abs(stick_value) < 0.4:
-        print("lower")
         if stick_value > 0:
             return lower
         else:
             return -lower
     elif 0.4 <= abs(stick_value) < 0.9:
-        print("mid")
         if stick_value > 0:
             return mid
         else:
             return -mid
     elif 0.9 <= abs(stick_value) <= 1.0:
-        print("upper")
         if stick_value > 0:
             return upper
         else:
             return -upper
     else:
-        print("none")
         return 0
 
 

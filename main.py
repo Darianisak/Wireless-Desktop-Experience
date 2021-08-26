@@ -88,6 +88,7 @@ def main():
                 global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
                 global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
                 global button_a, button_b, button_x, button_y, left_bumper, right_bumper, start_button
+                global right_trigger, left_trigger
 
             #   Logic Segment
 
@@ -161,12 +162,12 @@ def main():
                         #   Handles events tied to the left trigger.
                         if i.trigger == 0:
                             if i.value == 1.0:
-                                kb.press_and_release('ctrl+-')
+                                kb.press_and_release(left_trigger)
 
                         #   Handles events tied to the right trigger.
                         if i.trigger == 1:
                             if i.value == 1.0:
-                                kb.press_and_release('ctrl+plus')
+                                kb.press_and_release(right_trigger)
 
                 #   Makes calls to cursor_update, which returns new mouse positional
                 #   arguments.
@@ -304,6 +305,7 @@ def assign_defaults():
     global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
     global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
     global button_a, button_b, button_x, button_y, left_bumper, right_bumper, start_button
+    global right_trigger, left_trigger
 
     x_sens = 0.4
     y_sens = 0.4
@@ -327,6 +329,8 @@ def assign_defaults():
     left_bumper = 'ctrl+w'
     right_bumper = 'ctrl+t'
     start_button = 'windows'
+    left_trigger = 'ctrl+-'
+    right_trigger = 'ctrl+plus'
 
 
 #   assign_config is used to define controller variables when the program is
@@ -336,6 +340,7 @@ def assign_config(config_list):
     global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
     global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
     global button_a, button_b, button_x, button_y, left_bumper, right_bumper, start_button
+    global right_trigger, left_trigger
 
     x_sens = float(config_list[0])
     y_sens = float(config_list[1])
@@ -359,6 +364,8 @@ def assign_config(config_list):
     left_bumper = config_list[19]
     right_bumper = config_list[20]
     start_button = config_list[21]
+    left_trigger = config_list[22]
+    right_trigger = config_list[23]
 
 
 #   <<< GLOBAL VARIABLES >>>    #
@@ -410,6 +417,11 @@ right_bumper = 0
 
 #   start_button is used to define shortcuts tied to the start button
 start_button = 0
+
+#   left_trigger and right_trigger are variables used to bind shortcuts to the
+#   maximum displacement value of the triggers.
+left_trigger = 0
+right_trigger = 0
 
 
 #   <<< PRIMARY LOGIC SEQUENCE >>>    #

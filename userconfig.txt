@@ -85,3 +85,13 @@ ctrl+t
 
 # Bind for the start button. This can only take keyboard keys - index 21
 windows
+
+# Bind for the left trigger. This bind will only be called when the trigger
+# is fully depressed, i.e. 1.0 displacement. This can only have keyboard keys
+# bound to it - index 22
+ctrl+-
+
+# Bind for the right trigger. This bind will only be called when the trigger
+# is fully depressed, i.e. 1.0 displacement. This can only have keyboard keys
+# bound to it - index 23
+ctrl+plus

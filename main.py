@@ -87,7 +87,7 @@ def main():
 
                 global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
                 global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
-                global button_a, button_b, button_x, button_y
+                global button_a, button_b, button_x, button_y, left_bumper, right_bumper
 
             #   Logic Segment
 
@@ -139,12 +139,12 @@ def main():
 
                         #   Handles events tied to the left bumper.
                         if i.button == "LEFT_SHOULDER":
-                            kb.press_and_release('space, ctrl+w')
+                            kb.press_and_release(left_bumper)
 
                         #   Handles events tied to the right bumper.
                         if i.button == "RIGHT_SHOULDER":
                             #   Used to create new web tabs
-                            kb.press_and_release('space, ctrl+t')
+                            kb.press_and_release(right_bumper)
 
                         #   Handles events tied to START button.
                         if i.button == "START":
@@ -302,7 +302,7 @@ def assign_defaults():
 
     global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
     global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
-    global button_a, button_b, button_x, button_y
+    global button_a, button_b, button_x, button_y, left_bumper, right_bumper
 
     x_sens = 0.4
     y_sens = 0.4
@@ -323,6 +323,8 @@ def assign_defaults():
     button_b = "right"
     button_x = "middle"
     button_y = 'enter'
+    left_bumper = 'ctrl+w'
+    right_bumper = 'ctrl+t'
 
 
 #   assign_config is used to define controller variables when the program is
@@ -331,7 +333,7 @@ def assign_config(config_list):
 
     global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
     global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
-    global button_a, button_b, button_x, button_y
+    global button_a, button_b, button_x, button_y, left_bumper, right_bumper
 
     x_sens = float(config_list[0])
     y_sens = float(config_list[1])
@@ -352,6 +354,8 @@ def assign_config(config_list):
     button_b = str(config_list[16])
     button_x = str(config_list[17])
     button_y = config_list[18]
+    left_bumper = config_list[19]
+    right_bumper = config_list[20]
 
 
 #   <<< GLOBAL VARIABLES >>>    #
@@ -395,6 +399,11 @@ button_a = 0
 button_b = 0
 button_x = 0
 button_y = 0
+
+#   left_bumper and right_bumper are variables used to bind shortcut keys to their
+#   respective controller bumpers.
+left_bumper = 0
+right_bumper = 0
 
 
 #   <<< PRIMARY LOGIC SEQUENCE >>>    #

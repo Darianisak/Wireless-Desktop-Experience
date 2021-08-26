@@ -1,0 +1,62 @@
+# config file for Xbox Remote Script, developed by Darianisak: XX/08/2021
+
+# By modifying numeric values on non hashed lines, speed values and activation
+# boundaries can be modified to tailor the script to your personal
+# specification.
+
+# Horizontal Sensitivity
+0.4
+
+# Vertical Sensitivity
+0.4
+
+# Horizontal Boundary For Acceleration: This specifies the amount of displacement
+# that the left stick must reach before Acceleration is applied
+0.85
+
+# Vertical Boundary For Acceleration: This specifies the amount of displacement
+# that the left stick must reach before Acceleration is applied.
+0.85
+
+# Horizontal Acceleration
+0.4
+
+# Vertical Acceleration
+0.4
+
+# The Width Of The Screen
+2560
+
+# The Height Of The Screen
+1440
+
+# Scroll functionality is.. strange.  As scrolling is tied to the right joystick,
+# the polling rate of the controller is multiplicative with the scroll rate.
+# However, it seems that the lowest accepted rate is around 0.0085, anything
+# below this will cause scrolling to not occur. Adjust this value carefully.
+
+# Lower Scroll Rate
+0.0085
+
+# Middle Scroll Rate
+0.02
+
+# Upper Scroll Rate
+0.04
+
+# For defining autofill shortcuts, ensure that each letter is separated by a '+'
+# symbol and that the string is encapsulated within single quotes. Changing these
+# values will cause different text messages to be entered into whatever text field
+# is currently active.
+
+# DPAD_UP
+'n+e+t+f+l+i+x+.+c+o+m'
+
+# DPAD_DOWN
+'y+o+u+t+u+b+e+.+c+o+m'
+
+# DPAD_RIGHT
+'d+i+s+c+o+r+d+.+c+o+m+/+l+o+g+i+n'
+
+# DPAD_LEFT
+'f+a+c+e+b+o+o+k+.+c+o+m'

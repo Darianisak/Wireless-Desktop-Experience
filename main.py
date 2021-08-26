@@ -135,7 +135,7 @@ def main():
 
                         #   Handles events tied to the left bumper.
                         if i.button == "LEFT_SHOULDER":
-                            kb.press_and_release('space, ctrl+q')
+                            kb.press_and_release('space, ctrl+w')
 
                         #   Handles events tied to the right bumper.
                         if i.button == "RIGHT_SHOULDER":
@@ -150,6 +150,18 @@ def main():
                         #   Handles events tied to BACK button.
                         if i.button == "BACK":
                             return
+
+                    elif i.type == 5:
+
+                        #   Handles events tied to the left trigger.
+                        if i.trigger == 0:
+                            if i.value == 1.0:
+                                kb.press_and_release('ctrl+-')
+
+                        #   Handles events tied to the right trigger.
+                        if i.trigger == 1:
+                            if i.value == 1.0:
+                                kb.press_and_release('ctrl+plus')
 
                 #   Makes calls to cursor_update, which returns new mouse positional
                 #   arguments.

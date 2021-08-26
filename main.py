@@ -87,6 +87,7 @@ def main():
 
                 global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
                 global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
+                global button_a, button_b, button_x, button_y
 
             #   Logic Segment
 
@@ -106,19 +107,19 @@ def main():
 
                         #   Handles events related to the 'A' Button.
                         if i.button == 'A':
-                            ms.click("left")
+                            ms.click(button_a)
 
                         #   Handles events related to the 'B' Button.
                         if i.button == 'B':
-                            ms.click("right")
+                            ms.click(button_b)
 
                         #   Handles events related to the 'X' Button.
                         if i.button == 'X':
-                            ms.click("middle")
+                            ms.click(button_x)
 
                         #   Handles events related to the 'Y' Button.
                         if i.button == 'Y':
-                            kb.press('enter')
+                            kb.press(button_y)
 
                         #   Handles events tied to DPAD_UP
                         if i.button == "DPAD_UP":
@@ -301,6 +302,7 @@ def assign_defaults():
 
     global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
     global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
+    global button_a, button_b, button_x, button_y
 
     x_sens = 0.4
     y_sens = 0.4
@@ -317,6 +319,10 @@ def assign_defaults():
     left_fill = 'y+o+u+t+u+b+e+.+c+o+m'
     right_fill = 'd+i+s+c+o+r+d+.+c+o+m+/+l+o+g+i+n'
     down_fill = 'f+a+c+e+b+o+o+k+.+c+o+m'
+    button_a = "left"
+    button_b = "right"
+    button_x = "middle"
+    button_y = 'enter'
 
 
 #   assign_config is used to define controller variables when the program is
@@ -325,6 +331,7 @@ def assign_config(config_list):
 
     global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
     global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
+    global button_a, button_b, button_x, button_y
 
     x_sens = float(config_list[0])
     y_sens = float(config_list[1])
@@ -341,6 +348,10 @@ def assign_config(config_list):
     left_fill = config_list[12]
     right_fill = config_list[13]
     down_fill = config_list[14]
+    button_a = str(config_list[15])
+    button_b = str(config_list[16])
+    button_x = str(config_list[17])
+    button_y = config_list[18]
 
 
 #   <<< GLOBAL VARIABLES >>>    #
@@ -377,6 +388,13 @@ up_fill = 0
 left_fill = 0
 right_fill = 0
 down_fill = 0
+
+#   button_a, button_b, button_x, button_y are variables used to bind different
+#   functions to the controllers primary buttons.
+button_a = 0
+button_b = 0
+button_x = 0
+button_y = 0
 
 
 #   <<< PRIMARY LOGIC SEQUENCE >>>    #

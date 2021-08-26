@@ -60,3 +60,15 @@ d+i+s+c+o+r+d+.+c+o+m+/+l+o+g+i+n
 
 # DPAD_DOWN - index 14
 f+a+c+e+b+o+o+k+.+c+o+m
+
+# Bind for 'A' button - index 15
+left
+
+# Bind for 'B' button - index 16
+right
+
+# Bind for 'X' button - index 17
+middle
+
+# Bind for 'Y' button - index 18
+enter

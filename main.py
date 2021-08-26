@@ -240,17 +240,19 @@ def cursor_update(screen_max, stick_value, offset, sens, accel, bound):
 #   upper           :   is the scroll rate for the upper bound.
 def wheel_update(stick_value, lower, mid, upper):
 
-    if 0.2 <= abs(stick_value) < 0.4:
+    global min_ramp, lower_mid, upper_mid, max_ramp
+
+    if min_ramp <= abs(stick_value) < lower_mid:
         if stick_value > 0:
             return lower
         else:
             return -lower
-    elif 0.4 <= abs(stick_value) < 0.9:
+    elif lower_mid <= abs(stick_value) < upper_mid:
         if stick_value > 0:
             return mid
         else:
             return -mid
-    elif 0.9 <= abs(stick_value) <= 1.0:
+    elif upper_mid <= abs(stick_value) <= max_ramp:
         if stick_value > 0:
             return upper
         else:
@@ -290,7 +292,7 @@ def load_user_config():
         if len(index) != 0:
             return_list.append(index)
 
-    if len(return_list) != 28:
+    if len(return_list) != 32:
         raise IndexError()
 
     #   Returns the processed list
@@ -306,6 +308,7 @@ def assign_defaults():
     global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
     global button_a, button_b, button_x, button_y, left_bumper, right_bumper, start_button
     global right_trigger, left_trigger, left_dead, right_dead, left_depression, right_depression
+    global min_ramp, lower_mid, upper_mid, max_ramp
 
     x_sens = 0.4
     y_sens = 0.4
@@ -335,6 +338,10 @@ def assign_defaults():
     right_dead = 1200
     left_depression = 1.0
     right_depression = 1.0
+    min_ramp = 0.2
+    lower_mid = 0.4
+    upper_mid = 0.9
+    max_ramp = 1.0
 
 
 #   assign_config is used to define controller variables when the program is
@@ -345,6 +352,7 @@ def assign_config(config_list):
     global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
     global button_a, button_b, button_x, button_y, left_bumper, right_bumper, start_button
     global right_trigger, left_trigger, left_dead, right_dead, left_depression, right_depression
+    global min_ramp, lower_mid, upper_mid, max_ramp
 
     x_sens = float(config_list[0])
     y_sens = float(config_list[1])
@@ -374,6 +382,10 @@ def assign_config(config_list):
     right_dead = int(config_list[25])
     left_depression = float(config_list[26])
     right_depression = float(config_list[27])
+    min_ramp = float(config_list[28])
+    lower_mid = float(config_list[29])
+    upper_mid = float(config_list[30])
+    max_ramp = float(config_list[31])
 
 
 #   <<< GLOBAL VARIABLES >>>    #
@@ -441,6 +453,13 @@ right_dead = 0
 #   at which trigger events will occur.
 left_depression = 0
 right_depression = 0
+
+#   min_ramp, lower_mid, upper_mid and max_ramp are used to specify what scroll
+#   speeds will be used for a given right stick displacement.
+min_ramp = 0
+lower_mid = 0
+upper_mid = 0
+max_ramp = 0
 
 
 #   <<< PRIMARY LOGIC SEQUENCE >>>    #

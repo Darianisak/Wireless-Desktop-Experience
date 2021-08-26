@@ -117,3 +117,19 @@ ctrl+plus
 
 # Right trigger minimum depression - index 27
 1.0
+
+# Scroll speed is handled via displacement ramping, where different intervals
+# display different scroll rates. These ramp values relate directly the scroll
+# speed values.
+
+# Minimum ramp - index 28
+0.2
+
+# Lower mid ramp - index 29
+0.4
+
+# Upper mid ramp - index 30
+0.9
+
+# Max ramp - index 31
+1.0

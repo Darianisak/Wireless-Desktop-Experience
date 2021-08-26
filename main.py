@@ -182,6 +182,11 @@ def main():
 
             except xi.XInputNotConnectedError:
                 continue
+            except ValueError as msg:
+
+                #   Used to gracefully handle errors stemming from users defining
+                #   faulty config files.
+                print("A text shortcut is improperly defined: " + str(msg))
 
         #   Updates sentinel values so that appropriate output is printed. This
         #   only occurs if a connection has been made prior.
@@ -329,9 +334,9 @@ def assign_config(config_list):
     y_accel = float(config_list[5])
     x_screen = float(config_list[6])
     y_screen = float(config_list[7])
-    zoom_lower = config_list[8]
-    zoom_mid = config_list[9]
-    zoom_upper = config_list[10]
+    zoom_lower = float(config_list[8])
+    zoom_mid = float(config_list[9])
+    zoom_upper = float(config_list[10])
     up_fill = config_list[11]
     left_fill = config_list[12]
     right_fill = config_list[13]

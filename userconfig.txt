@@ -52,11 +52,11 @@
 # DPAD_UP - index 11
 n+e+t+f+l+i+x+.+c+o+m
 
-# DPAD_DOWN - index 12
+# DPAD_LEFT - index 12
 y+o+u+t+u+b+e+.+c+o+m
 
 # DPAD_RIGHT - index 13
 d+i+s+c+o+r+d+.+c+o+m+/+l+o+g+i+n
 
-# DPAD_LEFT - index 14
+# DPAD_DOWN - index 14
 f+a+c+e+b+o+o+k+.+c+o+m

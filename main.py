@@ -80,10 +80,9 @@ def main():
                 x_offset = ms.get_position()[0]
                 y_offset = ms.get_position()[1]
 
-                #   Sets the deadzone value for the left stick. The default deadzone
-                #   is 7489, and anything below 1000 is intolerable in terms of drag.
-                xi.set_deadzone(xi.DEADZONE_LEFT_THUMB, 1300)
-                xi.set_deadzone(xi.DEADZONE_RIGHT_THUMB, 1200)
+                global left_dead, right_dead
+                xi.set_deadzone(xi.DEADZONE_LEFT_THUMB, left_dead)
+                xi.set_deadzone(xi.DEADZONE_RIGHT_THUMB, right_dead)
 
                 global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
                 global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
@@ -305,7 +304,7 @@ def assign_defaults():
     global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
     global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
     global button_a, button_b, button_x, button_y, left_bumper, right_bumper, start_button
-    global right_trigger, left_trigger
+    global right_trigger, left_trigger, left_dead, right_dead
 
     x_sens = 0.4
     y_sens = 0.4
@@ -331,6 +330,8 @@ def assign_defaults():
     start_button = 'windows'
     left_trigger = 'ctrl+-'
     right_trigger = 'ctrl+plus'
+    left_dead = 1300
+    right_dead = 1200
 
 
 #   assign_config is used to define controller variables when the program is
@@ -340,7 +341,7 @@ def assign_config(config_list):
     global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
     global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
     global button_a, button_b, button_x, button_y, left_bumper, right_bumper, start_button
-    global right_trigger, left_trigger
+    global right_trigger, left_trigger, left_dead, right_dead
 
     x_sens = float(config_list[0])
     y_sens = float(config_list[1])
@@ -366,6 +367,8 @@ def assign_config(config_list):
     start_button = config_list[21]
     left_trigger = config_list[22]
     right_trigger = config_list[23]
+    left_dead = int(config_list[24])
+    right_dead = int(config_list[25])
 
 
 #   <<< GLOBAL VARIABLES >>>    #
@@ -422,6 +425,12 @@ start_button = 0
 #   maximum displacement value of the triggers.
 left_trigger = 0
 right_trigger = 0
+
+#   left_dead and right_dead are used to define the left and right stick
+#   dead zones. These values should never really be dropped below 1200~1300
+#   as any lower results in drastic levels of drag.
+left_dead = 0
+right_dead = 0
 
 
 #   <<< PRIMARY LOGIC SEQUENCE >>>    #

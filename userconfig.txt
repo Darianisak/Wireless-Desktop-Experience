@@ -95,3 +95,16 @@ ctrl+-
 # is fully depressed, i.e. 1.0 displacement. This can only have keyboard keys
 # bound to it - index 23
 ctrl+plus
+
+# Dead zones define the minimum amount of distance a joystick must be displaced
+# from center before movement is recorded. The below variables allow the left
+# and right dead zone values to be manually configured. By default, controllers
+# are set to around 7498, however the application uses a default of between
+# 1300 and 1200 for increased responsiveness. I strongly recommend not going
+# below this range as the drag increases dramatically.
+
+# Left dead zone - index 24
+1300
+
+# Right dead zone - index 25
+1200

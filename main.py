@@ -17,24 +17,6 @@ import keyboard as kb
 #   using a controller, or about to connect one.
 def main():
 
-    #   List responsible for holding user config data
-    user_config = []
-
-    #   Loads user config file and applies values to relevant fields. In the
-    #   advent that the required amount of arguments isn't loaded or the config
-    #   file can not be found, the application will use the default values.
-    try:
-        user_config = load_user_config()
-    except FileNotFoundError:
-
-        #   Assigns default values if the config file can't be found.
-        assign_defaults()
-    except IndexError:
-
-        #   Assigns default values if the config file doesn't have the required
-        #   amount of data entries.
-        assign_defaults()
-
     #   Sentinel values used to communicate connection information.
     connected = False
     disconnected = False
@@ -42,34 +24,32 @@ def main():
 
     #   x_offset and y_offset are storage variables used purely to store the current
     #   location of the cursor.
-    x_offset = 0
-    y_offset = 0
+    x_offset = ms.get_position()[0]
+    y_offset = ms.get_position()[1]
 
-    #   x_sens and y_sens are used to control the base sensitivity of the left
-    #   analog stick.
-    x_sens = 0.4
-    y_sens = 0.4
+    #   List responsible for holding user config data
+    user_config = []
 
-    #   x_bound and y_bound are used to define boundary ranges for cursor
-    #   acceleration activation.
-    x_bound = 0.85
-    y_bound = 0.85
+    #   Loads user config file and applies values to relevant fields. In the
+    #   advent that the required amount of arguments isn't loaded or the config
+    #   file can not be found, the application will use the default values.
+    try:
 
-    #   x_accel and y_accel are used to specify the speeds at which cursor acceleration
-    #   is implemented.
-    x_accel = 0.4
-    y_accel = 0.4
+        #   Assuming no file errors, assign file specified values
+        user_config = load_user_config()
+        print("The userconfig.txt file had no errors! Loading user values...")
+        assign_config(user_config)
+    except FileNotFoundError:
 
-    #   x_screen and y_screen are used to define screen space boundaries for mouse
-    #   control.
-    x_screen = 2560
-    y_screen = 1440
+        #   Assigns default values if the config file can't be found.
+        print("The userconfig.txt file could not be found. Loading default values...")
+        assign_defaults()
+    except IndexError:
 
-    #   zoom_lower, zoom_mid, and zoom_upper are responsible for defining the stepping
-    #   rates for each boundary range; tied to the stick displacement value.
-    zoom_lower = 0.0085
-    zoom_mid = 0.02
-    zoom_upper = 0.04
+        #   Assigns default values if the config file doesn't have the required
+        #   amount of data entries.
+        assign_defaults()
+        print("The userconfig.txt file did not contain the required 15 arguments. Loading default values...")
 
     #   Primary "Discovery" Loop.
     while True:
@@ -105,6 +85,9 @@ def main():
                 xi.set_deadzone(xi.DEADZONE_LEFT_THUMB, 1300)
                 xi.set_deadzone(xi.DEADZONE_RIGHT_THUMB, 1200)
 
+                global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
+                global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
+
             #   Logic Segment
 
             #   In the event of a disconnect, the XInput library raises the
@@ -139,19 +122,19 @@ def main():
 
                         #   Handles events tied to DPAD_UP
                         if i.button == "DPAD_UP":
-                            kb.press_and_release('n+e+t+f+l+i+x+.+c+o+m')
+                            kb.press_and_release(up_fill)
 
                         #   Handles events tied to DPAD_LEFT
                         if i.button == "DPAD_LEFT":
-                            kb.press_and_release('f+a+c+e, b+o+o+k+.+c+o+m')
+                            kb.press_and_release(left_fill)
 
                         #   Handles events tied to DPAD_RIGHT
                         if i.button == "DPAD_RIGHT":
-                            kb.press_and_release('d+i+s+c+o+r+d+.+c+o+m+/+l+o+g+i+n')
+                            kb.press_and_release(right_fill)
 
                         #   Handles events tied to DPAD_DOWN
                         if i.button == "DPAD_DOWN":
-                            kb.press_and_release('y+o+u+t+u+b+e+.+c+o+m')
+                            kb.press_and_release(down_fill)
 
                         #   Handles events tied to the left bumper.
                         if i.button == "LEFT_SHOULDER":
@@ -306,9 +289,92 @@ def load_user_config():
     return return_list
 
 
+#   assign_defaults is used to define controller variables in the advent that
+#   the userconfig.txt file can not be found, or the user config file does not
+#   contain the required amount of arguments.
 def assign_defaults():
-    print("assign defaults")
 
+    global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
+    global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
+
+    x_sens = 0.4
+    y_sens = 0.4
+    x_bound = 0.85
+    y_bound = 0.85
+    x_accel = 0.4
+    y_accel = 0.4
+    x_screen = 2560
+    y_screen = 1440
+    zoom_lower = 0.0085
+    zoom_mid = 0.02
+    zoom_upper = 0.04
+    up_fill = 'n+e+t+f+l+i+x+.+c+o+m'
+    left_fill = 'y+o+u+t+u+b+e+.+c+o+m'
+    right_fill = 'd+i+s+c+o+r+d+.+c+o+m+/+l+o+g+i+n'
+    down_fill = 'f+a+c+e+b+o+o+k+.+c+o+m'
+
+
+#   assign_config is used to define controller variables when the program is
+#   supplied with a valid userconfig.txt file.
+def assign_config(config_list):
+
+    global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
+    global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
+
+    x_sens = float(config_list[0])
+    y_sens = float(config_list[1])
+    x_bound = float(config_list[2])
+    y_bound = float(config_list[3])
+    x_accel = float(config_list[4])
+    y_accel = float(config_list[5])
+    x_screen = float(config_list[6])
+    y_screen = float(config_list[7])
+    zoom_lower = config_list[8]
+    zoom_mid = config_list[9]
+    zoom_upper = config_list[10]
+    up_fill = config_list[11]
+    left_fill = config_list[12]
+    right_fill = config_list[13]
+    down_fill = config_list[14]
+
+
+#   <<< GLOBAL VARIABLES >>>    #
+
+#   x_sens and y_sens are used to control the base sensitivity of the left
+#   analog stick.
+x_sens = 0
+y_sens = 0
+
+#   x_bound and y_bound are used to define boundary ranges for cursor
+#   acceleration activation.
+x_bound = 0
+y_bound = 0
+
+#   x_accel and y_accel are used to specify the speeds at which cursor acceleration
+#   is implemented.
+x_accel = 0
+y_accel = 0
+
+#   x_screen and y_screen are used to define screen space boundaries for mouse
+#   control.
+x_screen = 0
+y_screen = 0
+
+#   zoom_lower, zoom_mid, and zoom_upper are responsible for defining the stepping
+#   rates for each boundary range; tied to the stick displacement value.
+zoom_lower = 0
+zoom_mid = 0
+zoom_upper = 0
+
+#   up_fill, left_fill, right_fill, down_fill are variables used by the DPAD to
+#   to auto fill string entry forms.
+up_fill = 0
+left_fill = 0
+right_fill = 0
+down_fill = 0
+
+
+#   <<< PRIMARY LOGIC SEQUENCE >>>    #
 
 main()
 

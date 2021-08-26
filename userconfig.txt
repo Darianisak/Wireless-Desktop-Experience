@@ -82,3 +82,6 @@ ctrl+w
 
 # Bind for the right bumper. This can only take keyboard keys - index 20
 ctrl+t
+
+# Bind for the start button. This can only take keyboard keys - index 21
+windows

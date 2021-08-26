@@ -16,9 +16,34 @@ import keyboard as kb
 #   the assumption being that if you have the application open, you're either
 #   using a controller, or about to connect one.
 def main():
+
+    #   List responsible for holding user config data
+    user_config = []
+
+    #   Loads user config file and applies values to relevant fields. In the
+    #   advent that the required amount of arguments isn't loaded or the config
+    #   file can not be found, the application will use the default values.
+    try:
+        user_config = load_user_config()
+    except FileNotFoundError:
+
+        #   Assigns default values if the config file can't be found.
+        assign_defaults()
+    except IndexError:
+
+        #   Assigns default values if the config file doesn't have the required
+        #   amount of data entries.
+        assign_defaults()
+
+    #   Sentinel values used to communicate connection information.
     connected = False
     disconnected = False
     print_sentinel = True
+
+    #   x_offset and y_offset are storage variables used purely to store the current
+    #   location of the cursor.
+    x_offset = 0
+    y_offset = 0
 
     #   x_sens and y_sens are used to control the base sensitivity of the left
     #   analog stick.
@@ -34,11 +59,6 @@ def main():
     #   is implemented.
     x_accel = 0.4
     y_accel = 0.4
-
-    #   x_offset and y_offset are storage variables used purely to store the current
-    #   location of the cursor.
-    x_offset = 0
-    y_offset = 0
 
     #   x_screen and y_screen are used to define screen space boundaries for mouse
     #   control.
@@ -131,7 +151,7 @@ def main():
 
                         #   Handles events tied to DPAD_DOWN
                         if i.button == "DPAD_DOWN":
-                            kb.press_and_release('d+i+s+n+e+y+p+l+u+s+.+c+o+m+/+e+n+-+g+b+/+s+e+l+e+c+t+-+p+r+o+f+i+l+e')
+                            kb.press_and_release('y+o+u+t+u+b+e+.+c+o+m')
 
                         #   Handles events tied to the left bumper.
                         if i.button == "LEFT_SHOULDER":
@@ -246,6 +266,48 @@ def wheel_update(stick_value, lower, mid, upper):
             return -upper
     else:
         return 0
+
+
+#   load_user_config is a function definition used to load in user configuration
+#   files. This allows for more accessible application use by non programmers.
+def load_user_config():
+
+    config = []
+
+    #   Loads raw text file into list
+    with open('userconfig.txt') as cfg:
+        config = cfg.readlines()
+        cfg.close()
+
+    tmp = []
+
+    #   Cleans out hashed lines.
+    for index in config:
+        if index[0] != "#":
+            tmp.append(index)
+
+    pre_return = []
+
+    #   Cleans "\n" characters from entries
+    for index in tmp:
+        pre_return.append(index[0:len(index) - 1])
+
+    return_list = []
+
+    #   Removes zero length indices from the list
+    for index in pre_return:
+        if len(index) != 0:
+            return_list.append(index)
+
+    if len(return_list) != 15:
+        raise IndexError()
+
+    #   Returns the processed list
+    return return_list
+
+
+def assign_defaults():
+    print("assign defaults")
 
 
 main()

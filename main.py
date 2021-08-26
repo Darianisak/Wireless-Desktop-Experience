@@ -87,7 +87,7 @@ def main():
                 global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
                 global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
                 global button_a, button_b, button_x, button_y, left_bumper, right_bumper, start_button
-                global right_trigger, left_trigger
+                global right_trigger, left_trigger, left_depression, right_depression
 
             #   Logic Segment
 
@@ -160,12 +160,13 @@ def main():
 
                         #   Handles events tied to the left trigger.
                         if i.trigger == 0:
-                            if i.value == 1.0:
+                            if i.value >= left_depression:
+                                print(left_depression)
                                 kb.press_and_release(left_trigger)
 
                         #   Handles events tied to the right trigger.
                         if i.trigger == 1:
-                            if i.value == 1.0:
+                            if i.value >= right_depression:
                                 kb.press_and_release(right_trigger)
 
                 #   Makes calls to cursor_update, which returns new mouse positional
@@ -289,7 +290,7 @@ def load_user_config():
         if len(index) != 0:
             return_list.append(index)
 
-    if len(return_list) != 15:
+    if len(return_list) != 28:
         raise IndexError()
 
     #   Returns the processed list
@@ -304,7 +305,7 @@ def assign_defaults():
     global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
     global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
     global button_a, button_b, button_x, button_y, left_bumper, right_bumper, start_button
-    global right_trigger, left_trigger, left_dead, right_dead
+    global right_trigger, left_trigger, left_dead, right_dead, left_depression, right_depression
 
     x_sens = 0.4
     y_sens = 0.4
@@ -332,6 +333,8 @@ def assign_defaults():
     right_trigger = 'ctrl+plus'
     left_dead = 1300
     right_dead = 1200
+    left_depression = 1.0
+    right_depression = 1.0
 
 
 #   assign_config is used to define controller variables when the program is
@@ -341,7 +344,7 @@ def assign_config(config_list):
     global x_sens, y_sens, x_bound, y_bound, x_accel, y_accel, x_screen, y_screen
     global zoom_lower, zoom_mid, zoom_upper, up_fill, left_fill, right_fill, down_fill
     global button_a, button_b, button_x, button_y, left_bumper, right_bumper, start_button
-    global right_trigger, left_trigger, left_dead, right_dead
+    global right_trigger, left_trigger, left_dead, right_dead, left_depression, right_depression
 
     x_sens = float(config_list[0])
     y_sens = float(config_list[1])
@@ -369,6 +372,8 @@ def assign_config(config_list):
     right_trigger = config_list[23]
     left_dead = int(config_list[24])
     right_dead = int(config_list[25])
+    left_depression = float(config_list[26])
+    right_depression = float(config_list[27])
 
 
 #   <<< GLOBAL VARIABLES >>>    #
@@ -431,6 +436,11 @@ right_trigger = 0
 #   as any lower results in drastic levels of drag.
 left_dead = 0
 right_dead = 0
+
+#   left_depression and right_depression are used to specify the boundary point
+#   at which trigger events will occur.
+left_depression = 0
+right_depression = 0
 
 
 #   <<< PRIMARY LOGIC SEQUENCE >>>    #

@@ -1,9 +1,11 @@
 import XInput as xi
 import mouse as ms
 import keyboard as kb
+from win32gui import GetWindowText, GetForegroundWindow
 
 #   https://www.thepythoncode.com/article/control-mouse-python
 #   https://pypi.org/project/XInput-Python/
+#   https://stackoverflow.com/questions/10266281/obtain-active-window-using-python
 
 #   The purpose of this application is to provide universal Windows support
 #   for controller based user interaction, i.e. using controllers to browse
@@ -22,13 +24,19 @@ def main():
     disconnected = False
     print_sentinel = True
 
+    #   Sentinel value used to communicate to the program whether config
+    #   files were used or not.
+    default_bindings = False
+
     #   x_offset and y_offset are storage variables used purely to store the current
     #   location of the cursor.
     x_offset = ms.get_position()[0]
     y_offset = ms.get_position()[1]
 
-    #   List responsible for holding user config data
-    user_config = []
+    #   prior_window is used to store a reference to the most recently active window.
+    #   By storing the most recent window, we can check if the active window has
+    #   changed, updating the controller bindings accordingly.
+    prior_window = GetWindowText(GetForegroundWindow())
 
     #   Loads user config file and applies values to relevant fields. In the
     #   advent that the required amount of arguments isn't loaded or the config
@@ -44,12 +52,14 @@ def main():
         #   Assigns default values if the config file can't be found.
         print("The userconfig.txt file could not be found. Loading default values...")
         assign_defaults()
+        default_bindings = True
     except IndexError:
 
         #   Assigns default values if the config file doesn't have the required
         #   amount of data entries.
-        assign_defaults()
         print("The userconfig.txt file did not contain the required 15 arguments. Loading default values...")
+        assign_defaults()
+        default_bindings = True
 
     #   Primary "Discovery" Loop.
     while True:
@@ -190,6 +200,22 @@ def main():
                 #   Used to gracefully handle errors stemming from users defining
                 #   faulty config files.
                 print("A text shortcut is improperly defined: " + str(msg))
+
+            #   Sequence by which, if the current window is not the same as the
+            #   prior window, the control bindings can be updated. This
+            #   is only supported when the user is using config files, as
+            #   opposed to the default config.
+            if GetWindowText(GetForegroundWindow()) != prior_window:
+                prior_window = GetWindowText(GetForegroundWindow())
+
+                #   Conditional statement that ensures profiles are not switched
+                #   in the advent that default_bindings are already being used.
+                #   Additionally, by separating it like this, it allows for future
+                #   additional default configs to be added.
+                if not default_bindings:
+                    print("yes")
+
+            #   END OF MAIN WHILE LOOP
 
         #   Updates sentinel values so that appropriate output is printed. This
         #   only occurs if a connection has been made prior.
@@ -464,7 +490,10 @@ max_ramp = 0
 
 #   <<< PRIMARY LOGIC SEQUENCE >>>    #
 
-main()
+try:
+    main()
+except KeyboardInterrupt:
+    print("Script was halted improperly.")
 
 print("Application Terminated")
 

@@ -1,7 +1,7 @@
 import XInput as xi
 import mouse as ms
 import keyboard as kb
-from win32gui import GetWindowText, GetForegroundWindow
+#from win32gui import GetWindowText, GetForegroundWindow
 
 #   https://www.thepythoncode.com/article/control-mouse-python
 #   https://pypi.org/project/XInput-Python/
@@ -36,7 +36,7 @@ def main():
     #   prior_window is used to store a reference to the most recently active window.
     #   By storing the most recent window, we can check if the active window has
     #   changed, updating the controller bindings accordingly.
-    prior_window = GetWindowText(GetForegroundWindow())
+   # prior_window = GetWindowText(GetForegroundWindow())
 
     #   Loads user config file and applies values to relevant fields. In the
     #   advent that the required amount of arguments isn't loaded or the config
@@ -105,7 +105,6 @@ def main():
             #   XInputNotConnectedError. This exception handling lets users just
             #   reconnect their controller without too much fuss.
             try:
-
                 #   Iterates through the event generator. This is used to handle
                 #   events relating to button presses.
                 for i in events:
@@ -117,65 +116,79 @@ def main():
 
                         #   Handles events related to the 'A' Button.
                         if i.button == 'A':
+                            print("button_a")
                             ms.click(button_a)
 
                         #   Handles events related to the 'B' Button.
                         if i.button == 'B':
+                            print("button_b")
                             ms.click(button_b)
 
                         #   Handles events related to the 'X' Button.
                         if i.button == 'X':
+                            print("button_x")
                             ms.click(button_x)
 
                         #   Handles events related to the 'Y' Button.
                         if i.button == 'Y':
+                            print("button_y")
                             kb.press(button_y)
 
                         #   Handles events tied to DPAD_UP
                         if i.button == "DPAD_UP":
+                            print("button_dp_u")
                             kb.press_and_release(up_fill)
 
                         #   Handles events tied to DPAD_LEFT
                         if i.button == "DPAD_LEFT":
+                            print("button_dp_l")
                             kb.press_and_release(left_fill)
 
                         #   Handles events tied to DPAD_RIGHT
                         if i.button == "DPAD_RIGHT":
+                            print("button_dp_r")
                             kb.press_and_release(right_fill)
 
                         #   Handles events tied to DPAD_DOWN
                         if i.button == "DPAD_DOWN":
+                            print("button_dp_d")
                             kb.press_and_release(down_fill)
 
                         #   Handles events tied to the left bumper.
                         if i.button == "LEFT_SHOULDER":
+                            print("shoulder_left")
                             kb.press_and_release(left_bumper)
 
                         #   Handles events tied to the right bumper.
                         if i.button == "RIGHT_SHOULDER":
+                            print("shoulder_right")
                             #   Used to create new web tabs
                             kb.press_and_release(right_bumper)
 
                         #   Handles events tied to START button.
                         if i.button == "START":
+                            print("start")
                             #   This function is only supported in IDE run mode.
                             kb.press_and_release(start_button)
 
                         #   Handles events tied to BACK button. This should not be rebound, as without it, the program
                         #   can't easily be closed.
                         if i.button == "BACK":
+                            print("back")
                             return
 
                     elif i.type == 5:
 
                         #   Handles events tied to the left trigger.
                         if i.trigger == 0:
+                            print("trigger_left")
                             if i.value >= left_depression:
                                 print(left_depression)
                                 kb.press_and_release(left_trigger)
 
                         #   Handles events tied to the right trigger.
                         if i.trigger == 1:
+                            print("trigger_right")
                             if i.value >= right_depression:
                                 kb.press_and_release(right_trigger)
 
@@ -205,15 +218,18 @@ def main():
             #   prior window, the control bindings can be updated. This
             #   is only supported when the user is using config files, as
             #   opposed to the default config.
-            if GetWindowText(GetForegroundWindow()) != prior_window:
-                prior_window = GetWindowText(GetForegroundWindow())
 
-                #   Conditional statement that ensures profiles are not switched
-                #   in the advent that default_bindings are already being used.
-                #   Additionally, by separating it like this, it allows for future
-                #   additional default configs to be added.
-                if not default_bindings:
-                    print("yes")
+
+            # win32 is deprecated - not available for py 3.10
+            # if GetWindowText(GetForegroundWindow()) != prior_window:
+            #     prior_window = GetWindowText(GetForegroundWindow())
+            #
+            #     #   Conditional statement that ensures profiles are not switched
+            #     #   in the advent that default_bindings are already being used.
+            #     #   Additionally, by separating it like this, it allows for future
+            #     #   additional default configs to be added.
+            #     if not default_bindings:
+            #         print("yes")
 
             #   END OF MAIN WHILE LOOP
 

@@ -1,5 +1,3 @@
-import App_Exceptions as AE
-
 #   xbox_model is a class that represents an xbox controller object, through
 #   which more complicated expressions can be communicated by the end user.
 #   More complicated expressions include actions that are dependant on another
@@ -19,7 +17,7 @@ button_depressed_y = False
 #
 #   button: Type String. Valid (A, B, X, Y)
 #   return: True - button is depressed. False - button is not depressed
-#   error : AE.InvalidModelSelection when button is invalid
+#   error : ValueError when button is invalid
 def is_button_depressed(button):
 
     match button:
@@ -32,7 +30,8 @@ def is_button_depressed(button):
         case "Y":
             return button_depressed_a
         case _:
-            raise AE.InvalidModelSelection #todo
+            raise ValueError("Raised by Xbox_model.is_button_depressed(button)"
+                             "\n'button' is invalid - Must be (A,B,X,Y), was " + str(button))
 
 
 #   set_button_depressed is a boolean setter method for the button group.
@@ -40,8 +39,7 @@ def is_button_depressed(button):
 #   button: Type String. Valid (A, B, X, Y)
 #   status: Type bool
 #   return: None
-#   error : AE.InvalidModelSelection when button is invalid
-#   error : ValueError when status is not of type bool
+#   error : ValueError when status is not of type bool OR button is invalid
 def set_button_depressed(button, status):
 
     global button_depressed_a, button_depressed_b, button_depressed_y
@@ -59,9 +57,11 @@ def set_button_depressed(button, status):
             case "Y":
                 button_depressed_y = status
             case _:
-                return AE.InvalidModelSelection #todo
+                return ValueError("Raised by Xbox_model.set_button_depressed(button, status)"
+                                  "\n'button' is invalid - Must be (A,B,X,Y), was " + str(button))
     else:
-        raise ValueError #todo
+        raise ValueError("Raised by Xbox_model.set_button_depressed(button, status)"
+                         "\n'status' must be of type bool, was " + str(type(status)))
 
 
 shoulder_depressed_left = False
@@ -72,7 +72,7 @@ shoulder_depressed_right = False
 #
 #   shoulder: Type String. Valid (LEFT, RIGHT)
 #   return  : True - shoulder is depressed. False - shoulder is not depressed.
-#   error   : InvalidModelSelection when shoulder is invalid
+#   error   : ValueError when shoulder is invalid
 def is_shoulder_depressed(shoulder):
 
     match shoulder:
@@ -81,7 +81,9 @@ def is_shoulder_depressed(shoulder):
         case "RIGHT":
             return shoulder_depressed_right
         case _:
-            raise AE.InvalidModelSelection # todo
+            raise ValueError("Raised by Xbox_model.is_shoulder_depressed(shoulder)"
+                             "\n'shoulder' is invalid - Must be (LEFT, RIGHT), "
+                             "was " + str(shoulder))
 
 
 #   is_shoulder_depressed is a boolean setter method for the shoulder group.
@@ -89,8 +91,7 @@ def is_shoulder_depressed(shoulder):
 #   shoulder: Type String. Valid (LEFT, RIGHT)
 #   status  : Type bool
 #   return  : None
-#   error   : AE.InvalidModelSelection when shoulder is invalid
-#   error   : ValueError when status is not of type bool
+#   error   : ValueError when status is not of type bool OR shoulder is invalid
 def set_shoulder_depressed(shoulder, status):
 
     global shoulder_depressed_right, shoulder_depressed_left
@@ -103,9 +104,12 @@ def set_shoulder_depressed(shoulder, status):
             case "RIGHT":
                 shoulder_depressed_right = status
             case _:
-                raise AE.InvalidModelSelection  #todo
+                raise ValueError("Raised by Xbox_model.set_shoulder_depressed(shoulder, status)"
+                                 "\n'shoulder' is invalid - Must be (LEFT, RIGHT), "
+                                 "was " + str(shoulder))
     else:
-        raise ValueError #todo
+        raise ValueError("Raised by Xbox_model.set_shoulder_depressed(shoulder, status)"
+                         "\n'status' must be of type bool, was " + str(type(status)))
 
 
 dpad_depressed_left = False
@@ -118,7 +122,7 @@ dpad_depressed_bottom = False
 #
 #   dpad  : Type String. Valid (LEFT, RIGHT, TOP, BOTTOM)
 #   return: True - dpad is depressed. False - dpad is not depressed
-#   error : InvalidModelSelection is raised when dpad is invalid
+#   error : ValueError is raised when dpad is invalid
 def is_dpad_depressed(dpad):
 
     match dpad:
@@ -131,7 +135,9 @@ def is_dpad_depressed(dpad):
         case "BOTTOM":
             return dpad_depressed_bottom
         case _:
-            raise AE.InvalidModelSelection #todo
+            raise ValueError("Raised by Xbox_model.is_dpad_depressed(dpad)"
+                             "\n'dpad' is invalid - Must be (LEFT, RIGHT, TOP, BOTTOM), "
+                             "was " + str(dpad))
 
 
 #   is_dpad_depressed is a boolean setter method for the dpad group.
@@ -139,8 +145,8 @@ def is_dpad_depressed(dpad):
 #   dpad  : Type String. Valid (LEFT, RIGHT, TOP, BOTTOM)
 #   status: Type bool
 #   return: None
-#   error : InvalidModelSelection is raised when dpad is invalid
-#   error : ValueError is raised when status is not of type bool
+#   error : ValueError is raised when status is not of type bool OR when
+#           dpad is invalid
 def set_dpad_depressed(dpad, status):
 
     global dpad_depressed_left, dpad_depressed_right, dpad_depressed_top
@@ -158,9 +164,12 @@ def set_dpad_depressed(dpad, status):
             case "BOTTOM":
                 dpad_depressed_bottom = status
             case _:
-                raise AE.InvalidModelSelection #todo
+                raise ValueError("Raised by Xbox_model.set_dpad_depressed(dpad, status)"
+                                 "\n'dpad' is invalid - Must be (LEFT, RIGHT, TOP, BOTTOM), "
+                                 "was " + str(dpad))
     else:
-        raise ValueError #todo
+        raise ValueError("Raised by Xbox_model.set_dpad_depressed(dpad, status)"
+                         "\n'status' must be of type bool, was " + str(type(status)))
 
 
 start_depressed = False
@@ -171,7 +180,7 @@ back_depressed = False
 #
 #   option: Type String. Valid (START, BACK)
 #   return: True - option is depressed. False - option is not depressed
-#   error : InvalidModelSelection is raised when option is invalid
+#   error : ValueError is raised when option is invalid
 def is_option_depressed(option):
 
     match option:
@@ -180,7 +189,8 @@ def is_option_depressed(option):
         case "BACK":
             return back_depressed
         case _:
-            raise AE.InvalidModelSelection #todo
+            raise ValueError("Raised by Xbox_model.is_option_depressed(option)"
+                             "\n'option' is invalid - Must be (START, BACK), was " + str(option))
 
 
 #   is_option_depressed is a boolean setter method for the option group.
@@ -188,8 +198,8 @@ def is_option_depressed(option):
 #   option: Type String. Valid (START, BACK)
 #   status: Type bool
 #   return: None
-#   error : InvalidModelSelection is raised when option is invalid
-#   error : ValueError is raised when status is not of type bool
+#   error : ValueError is raised when status is not of type bool OR when option
+#           is invalid
 def set_option_depressed(option, status):
 
     global start_depressed, back_depressed
@@ -202,9 +212,11 @@ def set_option_depressed(option, status):
             case "BACK":
                 back_depressed = status
             case _:
-                raise AE.InvalidModelSelection #todo
+                raise ValueError("Raised by Xbox_model.set_option_depressed(option, status)"
+                                 "\n'option' is invalid - Must be (START, BACK), was " + str(option))
     else:
-        raise ValueError #todo
+        raise ValueError("Raised by Xbox_model.set_option_depressed(option, status)"
+                         "\n'status' must be of type bool, was " + str(type(status)))
 
 
 #   Analogue Control Values
@@ -220,7 +232,7 @@ trigger_right_depression_amount = 0.00
 #
 #   trigger: Type String. Valid (LEFT, RIGHT)
 #   return : True - trigger is depressed. False - trigger is not depressed
-#   error  : InvalidModelSelection is raised when trigger is invalid
+#   error  : ValueError is raised when trigger is invalid
 def is_trigger_depressed(trigger):
 
     match trigger:
@@ -229,7 +241,8 @@ def is_trigger_depressed(trigger):
         case "RIGHT":
             return trigger_right_depressed
         case _:
-            raise AE.InvalidModelSelection #todo
+            raise ValueError("Raised by Xbox_model.is_trigger_depressed(trigger)"
+                             "\n'trigger' is invalid - Must be (LEFT, RIGHT), was " + str(trigger))
 
 
 #   set_trigger_depressed is a boolean setter method for the trigger group.
@@ -237,8 +250,8 @@ def is_trigger_depressed(trigger):
 #   trigger: Type String. Valid (LEFT, RIGHT)
 #   status : Type bool
 #   return : None
-#   error  : InvalidModelSelection is raised when trigger is invalid
-#   error  : ValueError is raised when status is not of type bool
+#   error  : ValueError is raised when status is not of type bool OR when
+#            trigger is invalid
 def set_trigger_depressed(trigger, status):
 
     global trigger_left_depressed, trigger_right_depressed
@@ -251,9 +264,11 @@ def set_trigger_depressed(trigger, status):
             case "RIGHT":
                 trigger_right_depressed = status
             case _:
-                raise AE.InvalidModelSelection#todo
+                raise ValueError("Raised by Xbox_model.set_trigger_depressed(trigger, status)"
+                                 "\n'trigger' is invalid - Must be (LEFT, RIGHT), was " + str(trigger))
     else:
-        raise ValueError#todo
+        raise ValueError("Raised by Xbox_model.set_trigger_depressed(trigger, status)"
+                         "\n'status' must be of type bool, was " + str(type(status)))
 
 
 #   get_depression_amount is a getter method for accessing the current
@@ -261,7 +276,7 @@ def set_trigger_depressed(trigger, status):
 #
 #   trigger: Type String. Valid (LEFT, RIGHT)
 #   return : Float trigger depression value
-#   error  : InvalidModelSelection is raised when trigger is invalid
+#   error  : ValueError is raised when trigger is invalid
 def get_depression_amount(trigger):
 
     match trigger:
@@ -270,7 +285,8 @@ def get_depression_amount(trigger):
         case "RIGHT":
             return trigger_right_depression_amount
         case _:
-            raise AE.InvalidModelSelection #todo
+            raise ValueError("Raised by Xbox_model.get_depression_amount(trigger)"
+                             "\n'trigger' is invalid - Must be (LEFT, RIGHT), was " + str(trigger))
 
 
 #   set_depression_amount is a numerical setter method for updating the model
@@ -279,8 +295,8 @@ def get_depression_amount(trigger):
 #   trigger: Type String. Valid (LEFT, RIGHT)
 #   amount: Type float
 #   return: None
-#   error : InvalidModelSelection is raised when trigger is invalid
-#   error : ValueError is raised when amount is not of type float
+#   error : ValueError is raised when amount is not of type float OR when
+#           trigger is invalid
 def set_depression_amount(trigger, amount):
 
     global trigger_left_depression_amount, trigger_right_depression_amount
@@ -293,9 +309,11 @@ def set_depression_amount(trigger, amount):
             case "RIGHT":
                 trigger_right_depression_amount = amount
             case _:
-                raise AE.InvalidModelSelection#todo
+                raise ValueError("Raised by Xbox_model.set_depression_amount(trigger, amount)"
+                                 "\n'trigger' is invalid - Must be (LEFT, RIGHT), was " + str(trigger))
     else:
-        raise ValueError #todo
+        raise ValueError("Raised by Xbox_model.set_depressions_amount(trigger, amount)"
+                         "\n'amount' must be of type float, was " + str(type(amount)))
 
 
 stick_left_x = 0.0
@@ -311,7 +329,7 @@ stick_right_y = 0.0
 #   stick  : Type String. Valid (LEFT, RIGHT)
 #   axis   : Type String. Valid (X, Y)
 #   return : Float stick displacement value on an axis
-#   error  : InvalidModelSelection is raised when trigger or axis is invalid
+#   error  : ValueError is raised when trigger or axis is invalid
 def get_stick_position(stick, axis):
 
     match stick:
@@ -322,7 +340,8 @@ def get_stick_position(stick, axis):
                 case "Y":
                     return stick_left_y
                 case _:
-                    raise AE.InvalidModelSelection #todo
+                    raise ValueError("Raised by Xbox_model.get_stick_position(stick, axis)"
+                                     "\n'axis' is invalid - Must be (X, Y), was " + str(axis))
         case "RIGHT":
             match axis:
                 case "X":
@@ -330,9 +349,11 @@ def get_stick_position(stick, axis):
                 case "Y":
                     return stick_right_y
                 case _:
-                    raise AE.InvalidModelSelection#todo
+                    raise ValueError("Raised by Xbox_model.get_stick_position(stick, axis)"
+                                     "\n'axis' is invalid - Must be (X, Y), was " + str(axis))
         case _:
-            raise AE.InvalidModelSelection #todo
+            raise ValueError("Raised by Xbox_model.get_stick_position(stick, axis)"
+                             "\n'stick' is invalid - Must be (LEFT, RIGHT), was " + str(stick))
 
 
 #   set_stick_position is a numerical setter method for updating the model
@@ -342,8 +363,8 @@ def get_stick_position(stick, axis):
 #   axis  : Type Strong. Valid (X, Y)
 #   amount: Type float
 #   return: None
-#   error : InvalidModelSelection is raised when stick or axis is invalid
-#   error : ValueError is raised when amount is not of type float
+#   error : ValueError is raised when amount is not of type float OR when stick
+#           or axis is invalid
 def set_stick_position(stick, axis, amount):
 
     global stick_left_x, stick_left_y, stick_right_x, stick_right_y
@@ -358,7 +379,8 @@ def set_stick_position(stick, axis, amount):
                     case "Y":
                         stick_left_y = amount
                     case _:
-                        raise AE.InvalidModelSelection #todo
+                        raise ValueError("Raised by Xbox_model.set_stick_position(stick, axis, amount)"
+                                         "\n'axis' is invalid - Must be (X, Y), was " + str(axis))
             case "RIGHT":
                 match axis:
                     case "X":
@@ -366,8 +388,14 @@ def set_stick_position(stick, axis, amount):
                     case "Y":
                         stick_right_y = amount
                     case _:
-                        raise AE.InvalidModelSelection # todo
+                        raise ValueError("Raised by Xbox_model.set_stick_position(stick, axis, amount)"
+                                         "\n'axis' is invalid - Must be (X, Y), was " + str(axis))
             case _:
-                raise AE.InvalidModelSelection #todo
+                raise ValueError("Raised by Xbox_model.set_stick_position(stick, axis, amount)"
+                                 "\n'stick' is invalid - Must be (LEFT, RIGHT), was " + str(stick))
     else:
-        raise ValueError #todo
+        raise ValueError("Raised by Xbox_model.set_stick_position(stick, axis, amount)"
+                         "\n'amount' was not of type float, was " + str(type(amount)))
+
+
+print(set_stick_position("LEFT", 1, 1.0))

@@ -310,7 +310,7 @@ def load_user_config():
     config = []
 
     #   Loads raw text file into list
-    with open('userconfig.txt') as cfg:
+    with open('../userconfig.txt') as cfg:
         config = cfg.readlines()
         cfg.close()
 

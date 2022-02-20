@@ -20,15 +20,18 @@ button_depressed_y = False
 #   error : ValueError when button is invalid
 def is_button_depressed(button):
 
+    global button_depressed_a, button_depressed_b
+    global button_depressed_x, button_depressed_y
+
     match button:
         case "A":
             return button_depressed_a
         case "B":
-            return button_depressed_a
+            return button_depressed_b
         case "X":
-            return button_depressed_a
+            return button_depressed_x
         case "Y":
-            return button_depressed_a
+            return button_depressed_y
         case _:
             raise ValueError("Raised by Xbox_model.is_button_depressed(button)"
                              "\n'button' is invalid - Must be (A,B,X,Y), was " + str(button))
@@ -74,6 +77,8 @@ shoulder_depressed_right = False
 #   return  : True - shoulder is depressed. False - shoulder is not depressed.
 #   error   : ValueError when shoulder is invalid
 def is_shoulder_depressed(shoulder):
+
+    #   TODO set globals
 
     match shoulder:
         case "LEFT":
@@ -124,6 +129,7 @@ dpad_depressed_bottom = False
 #   return: True - dpad is depressed. False - dpad is not depressed
 #   error : ValueError is raised when dpad is invalid
 def is_dpad_depressed(dpad):
+    #   TODO set globals
 
     match dpad:
         case "LEFT":
@@ -182,6 +188,7 @@ back_depressed = False
 #   return: True - option is depressed. False - option is not depressed
 #   error : ValueError is raised when option is invalid
 def is_option_depressed(option):
+    #   TODO set globals
 
     match option:
         case "START":
@@ -234,6 +241,7 @@ trigger_right_depression_amount = 0.00
 #   return : True - trigger is depressed. False - trigger is not depressed
 #   error  : ValueError is raised when trigger is invalid
 def is_trigger_depressed(trigger):
+    #   TODO set globals
 
     match trigger:
         case "LEFT":
@@ -278,6 +286,9 @@ def set_trigger_depressed(trigger, status):
 #   return : Float trigger depression value
 #   error  : ValueError is raised when trigger is invalid
 def get_depression_amount(trigger):
+    #   TODO Add range validation - amounts should never be greater than 1.0 or
+    #   TODO    less than -1.0
+    #   TODO set globals
 
     match trigger:
         case "LEFT":
@@ -298,6 +309,8 @@ def get_depression_amount(trigger):
 #   error : ValueError is raised when amount is not of type float OR when
 #           trigger is invalid
 def set_depression_amount(trigger, amount):
+    #   TODO Add range validation - amounts should never be greater than 1.0 or
+    #   TODO    less than -1.0
 
     global trigger_left_depression_amount, trigger_right_depression_amount
 
@@ -331,6 +344,10 @@ stick_right_y = 0.0
 #   return : Float stick displacement value on an axis
 #   error  : ValueError is raised when trigger or axis is invalid
 def get_stick_position(stick, axis):
+
+    #   TODO Add range validation - amounts should never be greater than 1.0 or
+    #   TODO    less than -1.0
+    #   TODO set globals
 
     match stick:
         case "LEFT":
@@ -367,6 +384,9 @@ def get_stick_position(stick, axis):
 #           or axis is invalid
 def set_stick_position(stick, axis, amount):
 
+    #   TODO Add range validation - amounts should never be greater than 1.0 or
+    #   TODO    less than -1.0
+
     global stick_left_x, stick_left_y, stick_right_x, stick_right_y
 
     if isinstance(amount, float):
@@ -398,4 +418,53 @@ def set_stick_position(stick, axis, amount):
                          "\n'amount' was not of type float, was " + str(type(amount)))
 
 
-print(set_stick_position("LEFT", 1, 1.0))
+#   reset_model is a setter method for resetting all model values to their
+#   default states, e.g., 'False' and 0.00
+def reset_model():
+
+    #   Resets Button Defaults
+    global button_depressed_a, button_depressed_b
+    global button_depressed_x, button_depressed_y
+
+    button_depressed_a = False
+    button_depressed_b = False
+    button_depressed_x = False
+    button_depressed_y = False
+
+    #   Resets Shoulder Defaults
+    global shoulder_depressed_left, shoulder_depressed_right
+
+    shoulder_depressed_left = False
+    shoulder_depressed_right = False
+
+    #   Resets DPAD Defaults
+    global dpad_depressed_left, dpad_depressed_right
+    global dpad_depressed_top, dpad_depressed_bottom
+
+    dpad_depressed_left = False
+    dpad_depressed_right = False
+    dpad_depressed_bottom = False
+    dpad_depressed_top = False
+
+    #   Resets Option Defaults
+    global start_depressed, back_depressed
+
+    start_depressed = False
+    back_depressed = False
+
+    #   Resets Trigger Defaults
+    global trigger_left_depressed, trigger_right_depressed
+    global trigger_left_depression_amount, trigger_right_depression_amount
+
+    trigger_left_depressed = False
+    trigger_right_depressed = False
+    trigger_left_depression_amount = 0.00
+    trigger_right_depression_amount = 0.00
+
+    #   Resets Stick Defaults
+    global stick_left_x, stick_left_y, stick_right_x, stick_right_y
+
+    stick_left_x = 0.00
+    stick_left_y = 0.00
+    stick_right_x = 0.00
+    stick_right_y = 0.00

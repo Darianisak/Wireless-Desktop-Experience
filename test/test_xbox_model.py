@@ -15,24 +15,28 @@ class TestXboxModel(unittest.TestCase):
         xm.reset_model()
 
         #   Checks Button Defaults
-        self.assertFalse(xm.is_button_offset("A"))
-        self.assertFalse(xm.is_button_offset("B"))
-        self.assertFalse(xm.is_button_offset("X"))
-        self.assertFalse(xm.is_button_offset("Y"))
+        self.assertFalse(xm.get_button_status("A"))
+        self.assertFalse(xm.get_button_status("B"))
+        self.assertFalse(xm.get_button_status("X"))
+        self.assertFalse(xm.get_button_status("Y"))
 
         #   Checks Shoulder Defaults
-        self.assertFalse(xm.is_shoulder_offset("LEFT"))
-        self.assertFalse(xm.is_shoulder_offset("RIGHT"))
+        self.assertFalse(xm.get_button_status("LEFT_SHOULDER"))
+        self.assertFalse(xm.get_button_status("RIGHT_SHOULDER"))
 
         #   Checks DPAD Defaults
-        self.assertFalse(xm.is_dpad_offset("LEFT"))
-        self.assertFalse(xm.is_dpad_offset("RIGHT"))
-        self.assertFalse(xm.is_dpad_offset("TOP"))
-        self.assertFalse(xm.is_dpad_offset("BOTTOM"))
+        self.assertFalse(xm.get_button_status("DPAD_LEFT"))
+        self.assertFalse(xm.get_button_status("DPAD_RIGHT"))
+        self.assertFalse(xm.get_button_status("DPAD_UP"))
+        self.assertFalse(xm.get_button_status("DPAD_DOWN"))
 
         #   Checks Option Defaults
-        self.assertFalse(xm.is_option_offset("BACK"))
-        self.assertFalse(xm.is_option_offset("START"))
+        self.assertFalse(xm.get_button_status("BACK"))
+        self.assertFalse(xm.get_button_status("START"))
+
+        #   Checks Stick-Click Defaults
+        self.assertFalse(xm.get_button_status("LEFT_THUMB"))
+        self.assertFalse(xm.get_button_status("RIGHT_THUMB"))
 
         #   Checks Trigger Defaults
         self.assertFalse(xm.is_trigger_offset("LEFT"))
@@ -57,41 +61,48 @@ class TestXboxModel(unittest.TestCase):
 
         print("Running test_xbox_model -> test_normal_boundary...")
 
-        #   Checks Button Setter Toggle
-        xm.set_button_offset("A", True)
-        xm.set_button_offset("B", True)
-        xm.set_button_offset("X", True)
-        xm.set_button_offset("Y", True)
+        #   Checks Primary Buttons
+        xm.set_button_status("A", True)
+        xm.set_button_status("B", True)
+        xm.set_button_status("X", True)
+        xm.set_button_status("Y", True)
 
-        self.assertTrue(xm.is_button_offset("A"))
-        self.assertTrue(xm.is_button_offset("B"))
-        self.assertTrue(xm.is_button_offset("X"))
-        self.assertTrue(xm.is_button_offset("Y"))
+        self.assertTrue(xm.get_button_status("A"))
+        self.assertTrue(xm.get_button_status("B"))
+        self.assertTrue(xm.get_button_status("X"))
+        self.assertTrue(xm.get_button_status("Y"))
 
-        #   Check Shoulder Setter Toggle
-        xm.set_shoulder_offset("LEFT", True)
-        xm.set_shoulder_offset("RIGHT", True)
+        #   Check Shoulders
+        xm.set_button_status("LEFT_SHOULDER", True)
+        xm.set_button_status("RIGHT_SHOULDER", True)
 
-        self.assertTrue(xm.is_shoulder_offset("LEFT"))
-        self.assertTrue(xm.is_shoulder_offset("RIGHT"))
+        self.assertTrue(xm.get_button_status("LEFT_SHOULDER"))
+        self.assertTrue(xm.get_button_status("RIGHT_SHOULDER"))
 
-        #   Check DPAD Setter Toggle
-        xm.set_dpad_offset("LEFT", True)
-        xm.set_dpad_offset("RIGHT", True)
-        xm.set_dpad_offset("TOP", True)
-        xm.set_dpad_offset("BOTTOM", True)
+        #   Check DPAD
+        xm.set_button_status("DPAD_LEFT", True)
+        xm.set_button_status("DPAD_RIGHT", True)
+        xm.set_button_status("DPAD_UP", True)
+        xm.set_button_status("DPAD_DOWN", True)
 
-        self.assertTrue(xm.is_dpad_offset("LEFT"))
-        self.assertTrue(xm.is_dpad_offset("RIGHT"))
-        self.assertTrue(xm.is_dpad_offset("TOP"))
-        self.assertTrue(xm.is_dpad_offset("BOTTOM"))
+        self.assertTrue(xm.get_button_status("DPAD_LEFT"))
+        self.assertTrue(xm.get_button_status("DPAD_RIGHT"))
+        self.assertTrue(xm.get_button_status("DPAD_UP"))
+        self.assertTrue(xm.get_button_status("DPAD_DOWN"))
 
-        #   Check Option Setter Toggle
-        xm.set_option_offset("START", True)
-        xm.set_option_offset("BACK", True)
+        #   Check Options
+        xm.set_button_status("START", True)
+        xm.set_button_status("BACK", True)
 
-        self.assertTrue(xm.is_option_offset("START"))
-        self.assertTrue(xm.is_option_offset("BACK"))
+        self.assertTrue(xm.get_button_status("START"))
+        self.assertTrue(xm.get_button_status("BACK"))
+
+        #   Check Stick Click
+        xm.set_button_status("LEFT_THUMB", True)
+        xm.set_button_status("RIGHT_THUMB", True)
+
+        self.assertTrue(xm.get_button_status("LEFT_THUMB"))
+        self.assertTrue(xm.get_button_status("RIGHT_THUMB"))
 
         #   Check Trigger Setter Toggle
         xm.set_trigger_status("LEFT", True)
@@ -276,77 +287,23 @@ class TestXboxModel(unittest.TestCase):
 
         print("Running test_xbox_model -> test_data_types...")
 
-        #   Type checks for set_button_offset
+        #   Type check for button group - dpad, primaries, etc.
         try:
-            xm.set_button_offset("A", False)
+            xm.set_button_status("A", False)
         except TypeError:
             self.fail("Unexpected failure occurred during button offset dType test")
 
         with self.assertRaises(TypeError):
-            xm.set_button_offset("A", 1)
+            xm.set_button_status("A", 1)
 
         with self.assertRaises(TypeError):
-            xm.set_button_offset("A", "X")
+            xm.set_button_status("A", "X")
 
         with self.assertRaises(TypeError):
-            xm.set_button_offset("A", 1.0)
+            xm.set_button_status("A", 1.0)
 
         with self.assertRaises(TypeError):
-            xm.set_button_offset("A", None)
-
-        #   Type checks for set_shoulder_offset
-        try:
-            xm.set_shoulder_offset("LEFT", True)
-        except TypeError:
-            self.fail("Unexpected failure occurred during shoulder offset dType test")
-
-        with self.assertRaises(TypeError):
-            xm.set_shoulder_offset("LEFT", 1)
-
-        with self.assertRaises(TypeError):
-            xm.set_shoulder_offset("LEFT", "X")
-
-        with self.assertRaises(TypeError):
-            xm.set_shoulder_offset("LEFT", 1.0)
-
-        with self.assertRaises(TypeError):
-            xm.set_shoulder_offset("LEFT", None)
-
-        #   Type checks for set_dpad_offset
-        try:
-            xm.set_dpad_offset("LEFT", True)
-        except TypeError:
-            self.fail("Unexpected failure occurred during dpad offset dType test")
-
-        with self.assertRaises(TypeError):
-            xm.set_dpad_offset("LEFT", 1)
-
-        with self.assertRaises(TypeError):
-            xm.set_dpad_offset("LEFT", "X")
-
-        with self.assertRaises(TypeError):
-            xm.set_dpad_offset("LEFT", 1.0)
-
-        with self.assertRaises(TypeError):
-            xm.set_dpad_offset("LEFT", None)
-
-        #   Type checks for set_option_offset
-        try:
-            xm.set_option_offset("START", True)
-        except TypeError:
-            self.fail("Unexpected failure occurred during option offset dType test")
-
-        with self.assertRaises(TypeError):
-            xm.set_option_offset("START", 1)
-
-        with self.assertRaises(TypeError):
-            xm.set_option_offset("START", "X")
-
-        with self.assertRaises(TypeError):
-            xm.set_option_offset("START", 1.0)
-
-        with self.assertRaises(TypeError):
-            xm.set_option_offset("START", None)
+            xm.set_button_status("A", None)
 
         #   Type checks for set_trigger_status
         try:

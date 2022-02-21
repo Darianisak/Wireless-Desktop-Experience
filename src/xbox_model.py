@@ -1,4 +1,4 @@
-#   xbox_model is a class that represents an xbox controller object, through
+#   xbox_model represents an xbox controller object, through
 #   which more complicated expressions can be communicated by the end user.
 #   More complicated expressions include actions that are dependant on another
 #   buttons being offset concurrently, for example.
@@ -7,10 +7,29 @@
 
 #   Binary Control Values
 
-button_offset_a = False
-button_offset_b = False
-button_offset_x = False
-button_offset_y = False
+#   Primary Button Fields
+pressed_button_a = False
+pressed_button_b = False
+pressed_button_x = False
+pressed_button_y = False
+
+#   Shoulder Fields
+pressed_shoulder_left = False
+pressed_shoulder_right = False
+
+#   Thumb Click Fields
+pressed_right_thumb = False # todo no tests
+pressed_left_thumb = False # TODO no tests
+
+#   Option Fields
+pressed_start = False
+pressed_back = False
+
+#   DPAD Fields
+pressed_dpad_up = False
+pressed_dpad_right = False
+pressed_dpad_down = False
+pressed_dpad_left = False
 
 
 #   is_button_offset is a boolean getter method for the button group.
@@ -18,22 +37,46 @@ button_offset_y = False
 #   button: Type String. Valid (A, B, X, Y)
 #   return: True - button is offset. False - button is not offset
 #   error : ValueError when button is invalid
-def is_button_offset(button):
-    global button_offset_a, button_offset_b
-    global button_offset_x, button_offset_y
+def get_button_status(button):
+
+    global pressed_button_a, pressed_button_b, pressed_button_x, pressed_button_y
+    global pressed_shoulder_left, pressed_shoulder_right
+    global pressed_left_thumb, pressed_right_thumb
+    global pressed_start, pressed_back
+    global pressed_dpad_left, pressed_dpad_right, pressed_dpad_down, pressed_dpad_up
 
     match button:
         case "A":
-            return button_offset_a
+            return pressed_button_a
         case "B":
-            return button_offset_b
+            return pressed_button_b
         case "X":
-            return button_offset_x
+            return pressed_button_x
         case "Y":
-            return button_offset_y
+            return pressed_button_y
+        case "LEFT_SHOULDER":
+            return pressed_shoulder_left
+        case "RIGHT_SHOULDER":
+            return pressed_shoulder_right
+        case "LEFT_THUMB":
+            return pressed_left_thumb
+        case "RIGHT_THUMB":
+            return pressed_right_thumb
+        case "START":
+            return pressed_start
+        case "BACK":
+            return pressed_back
+        case "DPAD_UP":
+            return pressed_dpad_up
+        case "DPAD_DOWN":
+            return pressed_dpad_down
+        case "DPAD_LEFT":
+            return pressed_dpad_left
+        case "DPAD_RIGHT":
+            return pressed_dpad_right
         case _:
-            raise ValueError("Raised by Xbox_model.is_button_offset(button)"
-                             "\n'button' is invalid - Must be (A,B,X,Y), was " + str(button))
+            raise ValueError("Raised by Xbox_model.get_button_status(button)"
+                             "\n'button' was " + str(button))
 
 
 #   set_button_offset is a boolean setter method for the button group.
@@ -42,182 +85,50 @@ def is_button_offset(button):
 #   status: Type bool
 #   return: None
 #   error : ValueError when status is not of type bool OR button is invalid
-def set_button_offset(button, status):
-    global button_offset_a, button_offset_b, button_offset_y
-    global button_offset_x
+def set_button_status(button, status):
+
+    global pressed_button_a, pressed_button_b, pressed_button_x, pressed_button_y
+    global pressed_shoulder_left, pressed_shoulder_right
+    global pressed_left_thumb, pressed_right_thumb
+    global pressed_start, pressed_back
+    global pressed_dpad_left, pressed_dpad_right, pressed_dpad_down, pressed_dpad_up
 
     if isinstance(status, bool):
 
         match button:
             case "A":
-                button_offset_a = status
+                pressed_button_a = status
             case "B":
-                button_offset_b = status
+                pressed_button_b = status
             case "X":
-                button_offset_x = status
+                pressed_button_x = status
             case "Y":
-                button_offset_y = status
-            case _:
-                return ValueError("Raised by Xbox_model.set_button_offset(button, status)"
-                                  "\n'button' is invalid - Must be (A,B,X,Y), was " + str(button))
-    else:
-        raise TypeError("Raised by Xbox_model.set_button_offset(button, status)"
-                        "\n'status' must be of type bool, was " + str(type(status)))
-
-
-shoulder_offset_left = False
-shoulder_offset_right = False
-
-
-#   is_shoulder_offset is a boolean getter method for the shoulder group.
-#
-#   shoulder: Type String. Valid (LEFT, RIGHT)
-#   return  : True - shoulder is offset. False - shoulder is not offset.
-#   error   : ValueError when shoulder is invalid
-def is_shoulder_offset(shoulder):
-    global shoulder_offset_left, shoulder_offset_right
-
-    match shoulder:
-        case "LEFT":
-            return shoulder_offset_left
-        case "RIGHT":
-            return shoulder_offset_right
-        case _:
-            raise ValueError("Raised by Xbox_model.is_shoulder_offset(shoulder)"
-                             "\n'shoulder' is invalid - Must be (LEFT, RIGHT), "
-                             "was " + str(shoulder))
-
-
-#   is_shoulder_offset is a boolean setter method for the shoulder group.
-#
-#   shoulder: Type String. Valid (LEFT, RIGHT)
-#   status  : Type bool
-#   return  : None
-#   error   : ValueError when status is not of type bool OR shoulder is invalid
-def set_shoulder_offset(shoulder, status):
-    global shoulder_offset_right, shoulder_offset_left
-
-    if isinstance(status, bool):
-
-        match shoulder:
-            case "LEFT":
-                shoulder_offset_left = status
-            case "RIGHT":
-                shoulder_offset_right = status
-            case _:
-                raise ValueError("Raised by Xbox_model.set_shoulder_offset(shoulder, status)"
-                                 "\n'shoulder' is invalid - Must be (LEFT, RIGHT), "
-                                 "was " + str(shoulder))
-    else:
-        raise TypeError("Raised by Xbox_model.set_shoulder_offset(shoulder, status)"
-                        "\n'status' must be of type bool, was " + str(type(status)))
-
-
-dpad_offset_left = False
-dpad_offset_right = False
-dpad_offset_top = False
-dpad_offset_bottom = False
-
-
-#   is_dpad_offset is a boolean getter method for the dpad group.
-#
-#   dpad  : Type String. Valid (LEFT, RIGHT, TOP, BOTTOM)
-#   return: True - dpad is offset. False - dpad is not offset
-#   error : ValueError is raised when dpad is invalid
-def is_dpad_offset(dpad):
-    global dpad_offset_left, dpad_offset_right
-    global dpad_offset_bottom, dpad_offset_top
-
-    match dpad:
-        case "LEFT":
-            return dpad_offset_left
-        case "RIGHT":
-            return dpad_offset_right
-        case "TOP":
-            return dpad_offset_top
-        case "BOTTOM":
-            return dpad_offset_bottom
-        case _:
-            raise ValueError("Raised by Xbox_model.is_dpad_offset(dpad)"
-                             "\n'dpad' is invalid - Must be (LEFT, RIGHT, TOP, BOTTOM), "
-                             "was " + str(dpad))
-
-
-#   is_dpad_offset is a boolean setter method for the dpad group.
-#
-#   dpad  : Type String. Valid (LEFT, RIGHT, TOP, BOTTOM)
-#   status: Type bool
-#   return: None
-#   error : ValueError is raised when status is not of type bool OR when
-#           dpad is invalid
-def set_dpad_offset(dpad, status):
-    global dpad_offset_left, dpad_offset_right, dpad_offset_top
-    global dpad_offset_bottom
-
-    if isinstance(status, bool):
-
-        match dpad:
-            case "LEFT":
-                dpad_offset_left = status
-            case "RIGHT":
-                dpad_offset_right = status
-            case "TOP":
-                dpad_offset_top = status
-            case "BOTTOM":
-                dpad_offset_bottom = status
-            case _:
-                raise ValueError("Raised by Xbox_model.set_dpad_offset(dpad, status)"
-                                 "\n'dpad' is invalid - Must be (LEFT, RIGHT, TOP, BOTTOM), "
-                                 "was " + str(dpad))
-    else:
-        raise TypeError("Raised by Xbox_model.set_dpad_offset(dpad, status)"
-                        "\n'status' must be of type bool, was " + str(type(status)))
-
-
-start_offset = False
-back_offset = False
-
-
-#   is_option_offset is a boolean getter method for the option group.
-#
-#   option: Type String. Valid (START, BACK)
-#   return: True - option is offset. False - option is not offset
-#   error : ValueError is raised when option is invalid
-def is_option_offset(option):
-    global start_offset, back_offset
-
-    match option:
-        case "START":
-            return start_offset
-        case "BACK":
-            return back_offset
-        case _:
-            raise ValueError("Raised by Xbox_model.is_option_offset(option)"
-                             "\n'option' is invalid - Must be (START, BACK), was " + str(option))
-
-
-#   is_option_offset is a boolean setter method for the option group.
-#
-#   option: Type String. Valid (START, BACK)
-#   status: Type bool
-#   return: None
-#   error : ValueError is raised when status is not of type bool OR when option
-#           is invalid
-def set_option_offset(option, status):
-    global start_offset, back_offset
-
-    if isinstance(status, bool):
-
-        match option:
+                pressed_button_y = status
+            case "LEFT_SHOULDER":
+                pressed_shoulder_left = status
+            case "RIGHT_SHOULDER":
+                pressed_shoulder_right = status
+            case "LEFT_THUMB":
+                pressed_left_thumb = status
+            case "RIGHT_THUMB":
+                pressed_right_thumb = status
             case "START":
-                start_offset = status
+                pressed_start = status
             case "BACK":
-                back_offset = status
+                pressed_back = status
+            case "DPAD_UP":
+                pressed_dpad_up = status
+            case "DPAD_DOWN":
+                pressed_dpad_down = status
+            case "DPAD_LEFT":
+                pressed_dpad_left = status
+            case "DPAD_RIGHT":
+                pressed_dpad_right = status
             case _:
-                raise ValueError("Raised by Xbox_model.set_option_offset(option, status)"
-                                 "\n'option' is invalid - Must be (START, BACK), was " + str(option))
+                return ValueError("Raised by Xbox_model.set_button_status(button, status)"
+                                  "\n'button' was " + str(button))
     else:
-        raise TypeError("Raised by Xbox_model.set_option_offset(option, status)"
+        raise TypeError("Raised by Xbox_model.set_button_status(button, status)"
                         "\n'status' must be of type bool, was " + str(type(status)))
 
 
@@ -413,35 +324,36 @@ def set_stick_position(stick, axis, amount):
 #   reset_model is a setter method for resetting all model values to their
 #   default states, e.g., 'False' and 0.00
 def reset_model():
-    #   Resets Button Defaults
-    global button_offset_a, button_offset_b
-    global button_offset_x, button_offset_y
 
-    button_offset_a = False
-    button_offset_b = False
-    button_offset_x = False
-    button_offset_y = False
+    global pressed_button_a, pressed_button_b, pressed_button_x, pressed_button_y
+    global pressed_shoulder_left, pressed_shoulder_right
+    global pressed_left_thumb, pressed_right_thumb
+    global pressed_start, pressed_back
+    global pressed_dpad_left, pressed_dpad_right, pressed_dpad_down, pressed_dpad_up
+
+    #   Resets Button Defaults
+    pressed_button_a = False
+    pressed_button_b = False
+    pressed_button_x = False
+    pressed_button_y = False
 
     #   Resets Shoulder Defaults
-    global shoulder_offset_left, shoulder_offset_right
-
-    shoulder_offset_left = False
-    shoulder_offset_right = False
+    pressed_shoulder_left = False
+    pressed_shoulder_right = False
 
     #   Resets DPAD Defaults
-    global dpad_offset_left, dpad_offset_right
-    global dpad_offset_top, dpad_offset_bottom
-
-    dpad_offset_left = False
-    dpad_offset_right = False
-    dpad_offset_bottom = False
-    dpad_offset_top = False
+    pressed_dpad_left = False
+    pressed_dpad_right = False
+    pressed_dpad_down = False
+    pressed_dpad_up = False
 
     #   Resets Option Defaults
-    global start_offset, back_offset
+    pressed_start = False
+    pressed_back = False
 
-    start_offset = False
-    back_offset = False
+    #   Resets Stick Click Defaults
+    pressed_left_thumb = False
+    pressed_right_thumb = False
 
     #   Resets Trigger Defaults
     global trigger_left_offset, trigger_right_offset

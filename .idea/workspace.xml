@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1ff6729-4a5e-4132-83bc-7b000b9159f1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/xbox_interface.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/test_xbox_interface.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/xbox_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/xbox_interface.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/xbox_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/xbox_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/test_xbox_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/test_xbox_model.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +50,7 @@
       <recent name="E:\GitHub\Xbox-Remote-Script" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.xbox_interface">
+  <component name="RunManager" selected="Python tests.Unittests for test_xbox_model.TestXboxModel">
     <configuration name="xbox_interface" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Xbox-Remote-Script" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -86,20 +86,6 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests for test_xbox_model.TestXboxModel.test_data_types" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
-      <module name="Xbox-Remote-Script" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_xbox_model.TestXboxModel.test_data_types&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Unittests for test_xbox_model.TestXboxModel.test_default_returns" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="Xbox-Remote-Script" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -114,7 +100,7 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Unittests in test" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+    <configuration name="Unittests for test_xbox_model.TestXboxModel.test_invalid_boundary_numerics" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <module name="Xbox-Remote-Script" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -124,17 +110,31 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;$PROJECT_DIR$/test&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <option name="_new_target" value="&quot;test_xbox_model.TestXboxModel.test_invalid_boundary_numerics&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test_xbox_model.TestXboxModel.test_normal" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="Xbox-Remote-Script" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_xbox_model.TestXboxModel.test_normal&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.xbox_interface" />
         <item itemvalue="Python tests.Unittests for test_xbox_model.TestXboxModel" />
-        <item itemvalue="Python tests.Unittests in test" />
-        <item itemvalue="Python tests.Unittests for test_xbox_model.TestXboxModel.test_data_types" />
+        <item itemvalue="Python tests.Unittests for test_xbox_model.TestXboxModel.test_normal" />
+        <item itemvalue="Python tests.Unittests for test_xbox_model.TestXboxModel.test_invalid_boundary_numerics" />
         <item itemvalue="Python tests.Unittests for test_xbox_model.TestXboxModel.test_default_returns" />
+        <item itemvalue="Python.xbox_interface" />
       </list>
     </recent_temporary>
   </component>

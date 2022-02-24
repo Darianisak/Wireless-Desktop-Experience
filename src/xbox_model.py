@@ -50,7 +50,6 @@ xbox_model = {
 #   return: True - button is pressed. False - button is not pressed
 #   error : ValueError when button is invalid
 def get_button_status(button):
-
     global xbox_model
 
     match button:
@@ -95,7 +94,6 @@ def get_button_status(button):
 #   error : TypeError when status is not of type bool
 #   error : ValueError when button is invalid
 def set_button_status(button, status):
-
     global xbox_model
 
     if isinstance(status, bool):
@@ -143,7 +141,6 @@ def set_button_status(button, status):
 #   return : True - trigger is pressed. False - trigger is not pressed
 #   error  : ValueError is raised when trigger is invalid
 def is_trigger_offset(trigger):
-
     global xbox_model
 
     match trigger:
@@ -164,7 +161,6 @@ def is_trigger_offset(trigger):
 #   error  : TypeError is raised when status is not of type bool
 #   error  : ValueError when trigger is invalid
 def set_trigger_status(trigger, status):
-
     global xbox_model
 
     if isinstance(status, bool):
@@ -187,10 +183,9 @@ def set_trigger_status(trigger, status):
 #   is 1.0
 #
 #   trigger: Type String
-#   return : Float trigger offset value
+#   return : Float/int trigger offset value
 #   error  : ValueError is raised when trigger is invalid
 def get_offset_amount(trigger):
-
     global xbox_model
 
     match trigger:
@@ -206,8 +201,8 @@ def get_offset_amount(trigger):
 #   set_offset_amount is a numerical setter method for updating the model
 #   view of the triggers.
 #
-#   trigger: Type String
-#   amount: Type float
+#   trigger:Type String
+#   amount: Type float OR int
 #   return: None
 #   error : TypeError is raised when amount is not of type float
 #   error : ValueError when trigger is invalid. This can also be
@@ -216,22 +211,18 @@ def set_trigger_offset(trigger, amount):
 
     global xbox_model
 
-    if isinstance(amount, float):
-        if amount < 0.0 or amount > 1.0:
-            raise ValueError("Raised by Xbox_model.set_offset_amount(trigger, amount)"
-                             "\n'amount' is out of bounds - must be between 0.0 and 1.0 inclusive.")
-        else:
-            match trigger:
-                case "LEFT":
-                    xbox_model["trigger_left_offset_amount"] = amount
-                case "RIGHT":
-                    xbox_model["trigger_right_offset_amount"] = amount
-                case _:
-                    raise ValueError("Raised by Xbox_model.set_offset_amount(trigger, amount)"
-                                     "\n'trigger' is invalid was " + str(trigger))
+    if amount < 0.0 or amount > 1.0:
+        raise ValueError("Raised by Xbox_model.set_offset_amount(trigger, amount)"
+                         "\n'amount' is out of bounds - must be between 0.0 and 1.0 inclusive.")
     else:
-        raise TypeError("Raised by Xbox_model.set_offset_amount(trigger, amount)"
-                        "\n'amount' must be of type float, was " + str(type(amount)))
+        match trigger:
+            case "LEFT":
+                xbox_model["trigger_left_offset_amount"] = amount
+            case "RIGHT":
+                xbox_model["trigger_right_offset_amount"] = amount
+            case _:
+                raise ValueError("Raised by Xbox_model.set_offset_amount(trigger, amount)"
+                                 "\n'trigger' is invalid was " + str(trigger))
 
 
 #   get_stick_position is a getter method for accessing the current
@@ -242,7 +233,6 @@ def set_trigger_offset(trigger, amount):
 #   return : Float stick displacement value on an axis
 #   error  : ValueError is raised when trigger or axis is invalid
 def get_stick_position(stick, axis):
-
     global xbox_model
 
     match stick:
@@ -281,7 +271,6 @@ def get_stick_position(stick, axis):
 #           also be raised if the 'amount' value is out of bounds
 #           (-1.0 <= amount <= 1.0)
 def set_stick_position(stick, axis, amount):
-
     global xbox_model
 
     if isinstance(amount, float):
@@ -319,7 +308,6 @@ def set_stick_position(stick, axis, amount):
 #   reset_model is a setter method for resetting all model values to their
 #   default states, e.g., 'False' and 0.00
 def reset_model():
-
     global xbox_model
 
     #   Resets Button Defaults

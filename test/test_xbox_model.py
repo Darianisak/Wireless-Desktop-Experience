@@ -332,9 +332,6 @@ class TestXboxModel(unittest.TestCase):
             self.fail("Unexpected failure occurred during trigger offset dType test")
 
         with self.assertRaises(TypeError):
-            xm.set_trigger_offset("LEFT", 1)
-
-        with self.assertRaises(TypeError):
             xm.set_trigger_offset("LEFT", "X")
 
         with self.assertRaises(TypeError):
@@ -345,9 +342,6 @@ class TestXboxModel(unittest.TestCase):
             xm.set_stick_position("LEFT", "X", 1.0)
         except TypeError:
             self.fail("Unexpected failure occurred during stick position dType test")
-
-        with self.assertRaises(TypeError):
-            xm.set_stick_position("LEFT", "X", 1)
 
         with self.assertRaises(TypeError):
             xm.set_stick_position("LEFT", "X", "X")

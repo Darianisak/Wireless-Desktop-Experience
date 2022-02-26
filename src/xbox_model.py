@@ -141,6 +141,7 @@ def set_button_status(button, status):
 #   return : True - trigger is pressed. False - trigger is not pressed
 #   error  : ValueError is raised when trigger is invalid
 def is_trigger_offset(trigger):
+
     global xbox_model
 
     match trigger:
@@ -211,18 +212,22 @@ def set_trigger_offset(trigger, amount):
 
     global xbox_model
 
-    if amount < 0.0 or amount > 1.0:
-        raise ValueError("Raised by Xbox_model.set_offset_amount(trigger, amount)"
-                         "\n'amount' is out of bounds - must be between 0.0 and 1.0 inclusive.")
+    if (isinstance(amount, float) or isinstance(amount, int)) and not isinstance(amount, bool):
+        if 0.0 <= amount <= 1.0:
+            match trigger:
+                case "LEFT":
+                    xbox_model["trigger_left_offset_amount"] = amount
+                case "RIGHT":
+                    xbox_model["trigger_right_offset_amount"] = amount
+                case _:
+                    raise ValueError("Raised by Xbox_model.set_offset_amount(trigger, amount)"
+                                     "\n'trigger' is invalid was " + str(trigger))
+        else:
+            raise ValueError("Raised by Xbox_model.set_offset_amount(trigger, amount)"
+                             "\n'amount' is out of bounds - must be between 0.0 and 1.0 inclusive.")
     else:
-        match trigger:
-            case "LEFT":
-                xbox_model["trigger_left_offset_amount"] = amount
-            case "RIGHT":
-                xbox_model["trigger_right_offset_amount"] = amount
-            case _:
-                raise ValueError("Raised by Xbox_model.set_offset_amount(trigger, amount)"
-                                 "\n'trigger' is invalid was " + str(trigger))
+        raise TypeError("Raised by Xbox_model.set_offset_amount(trigger, amount)"
+                        "\n'amount' was not of either int or float, was" + str(type(amount)))
 
 
 #   get_stick_position is a getter method for accessing the current
@@ -274,10 +279,7 @@ def set_stick_position(stick, axis, amount):
     global xbox_model
 
     if isinstance(amount, float):
-        if amount < -1.0 or amount > 1.0:
-            raise ValueError("Raised by Xbox_model.set_stick_position(stick, axis, amount)"
-                             "\n'amount' is out of bounds - must be between -1.0 and 1.0 inclusive.")
-        else:
+        if -1.0 <= amount <= 1.0:
             match stick:
                 case "LEFT":
                     match axis:
@@ -300,6 +302,9 @@ def set_stick_position(stick, axis, amount):
                 case _:
                     raise ValueError("Raised by Xbox_model.set_stick_position(stick, axis, amount)"
                                      "\n'stick' was " + str(stick))
+        else:
+            raise ValueError("Raised by Xbox_model.set_stick_position(stick, axis, amount)"
+                             "\n'amount' is out of bounds - must be between -1.0 and 1.0 inclusive.")
     else:
         raise TypeError("Raised by Xbox_model.set_stick_position(stick, axis, amount)"
                         "\n'amount' was not of type float, was " + str(type(amount)))

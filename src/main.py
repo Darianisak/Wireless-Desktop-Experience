@@ -7,8 +7,8 @@ def main_test():
     while True:
 
         print("Waiting for connection...")
-        interface.set_preference("RUMBLE", "LEFT", 1500)
-        interface.set_preference("RUMBLE", "RIGHT", 1500)
+        interface.set_vibration_strength("LEFT", 1500)
+        interface.set_vibration_strength("RIGHT", 1500)
 
         while xbox.get_connected()[0]:
 
@@ -16,7 +16,7 @@ def main_test():
             if not isinstance(event_dict, type(None)):
                 if event_dict["pressed_button_a"]:
                     print("right on")
-                    interface.toggle_vibration("RIGHT")
+                    print(str(interface.get_battery()) + " type " + str(type(interface.get_battery())))
                 elif event_dict["pressed_button_x"]:
                     print("right off")
 

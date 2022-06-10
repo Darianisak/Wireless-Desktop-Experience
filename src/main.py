@@ -1,18 +1,22 @@
 import xbox_interface as interface
 import XInput as xbox
-
+import xbox_functions as fn
 
 def main_test():
+
+    func = fn.XboxFunctions()
+    func.read_binds("E:\GitHub\Xbox-Remote-Script\src\conf.txt")
+    return
 
     while True:
 
         print("Waiting for connection...")
-        interface.set_vibration_strength("LEFT", 1500)
-        interface.set_vibration_strength("RIGHT", 1500)
 
         while xbox.get_connected()[0]:
 
             event_dict = interface.read_controller()
+            print(event_dict)
+
             if not isinstance(event_dict, type(None)):
                 if event_dict["pressed_button_a"]:
                     print("right on")

@@ -191,6 +191,9 @@ def toggle_vibration(side):
 #            longer connected and it should revert to 'discovery' mode
 def read_controller():
 
+    #   TODO ~ Refactor this. Having a full copy of the model for every transaction
+    #   TODO ~ is not needed. Should just have a list for each group and return
+    #   TODO ~ a few distinct lists
     #   Sentinel value that prevents needless event logging
     an_event_occurred = False
 

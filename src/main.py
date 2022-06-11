@@ -1,18 +1,25 @@
 import xbox_interface as interface
 import XInput as xbox
-import xbox_functions as fn
+import xbox_binds as fn
 
 def main_test():
 
-    func = fn.XboxFunctions()
+    func = fn.XboxBinds()
     func.read_binds("E:\GitHub\Xbox-Remote-Script\src\conf.txt")
-    return
+
+    start_message = False
+    end_message = False
+
+    print("\nWelcome to the Wireless Desktop Experience! Waiting for"
+          " initial connection...")
 
     while True:
 
-        print("Waiting for connection...")
-
         while xbox.get_connected()[0]:
+
+            if not end_message:
+                print("\nController connection established!")
+                end_message = True
 
             event_dict = interface.read_controller()
             print(event_dict)
@@ -34,6 +41,9 @@ def main_test():
 
                     interface.toggle_vibration("LEFT")
 
+        if end_message:
+            print("\nController has been disconnected! Waiting for new connection...")
+            end_message = False
 
 
 main_test()

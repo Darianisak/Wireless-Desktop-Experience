@@ -3,40 +3,26 @@
 #   associated with an xbox controller
 
 !   buttons
-a_pressed        0
-a_released       0
-b_pressed        0
-b_released       0
-x_pressed        0
-x_released       0
-y_pressed        0
-y_released       0
-start_pressed    0
-start_released   0
-back_pressed     0
-back_released    0
-
-!   shoulders
-left_pressed     0
-left_released    0
-right_pressed    0
-right_released   0
+A                0
+Y                0
+B                0
+X                0
+START            0
+BACK             0
+RIGHT_SHOULDER   0
+LEFT_SHOULDER    0
+RIGHT_THUMB      0
+LEFT_THUMB       0
+DPAD_DOWN        0
+DPAD_UP          0
+DPAD_RIGHT       0
+DPAD_LEFT        0
 
 !   sticks
 left_dead        0
 right_dead       0
 left_move        0
 right_move       0
-
-!   dpad
-up_pressed       0
-up_released      0
-down_pressed     0
-down_released    0
-left_pressed     0
-left_released    0
-right_pressed    0
-right_released   0
 
 !   triggers
 left_dead        0

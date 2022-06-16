@@ -1,6 +1,12 @@
 from src import xbox_model as model
 import XInput as xbox
 
+button_pressed = []
+button_released = []
+trigger_events = []
+stick_events = []
+
+
 #   xbox_interface is responsible for receiving controller events, adjusting
 #   the model, and returning information appropriately
 
@@ -19,7 +25,6 @@ import XInput as xbox
 #   error  : TypeError when value is not of type int
 #   error  : ValueError when value exceeds the boundaries
 def set_trigger_dead(value):
-
     if isinstance(value, int) and not isinstance(value, bool):
         if 0 <= value <= 255:
             xbox.set_deadzone(xbox.DEADZONE_TRIGGER, value)
@@ -41,7 +46,6 @@ def set_trigger_dead(value):
 #   error  : TypeError when value is not of type int
 #   error  : ValueError when side is invalid or value exceeds the boundaries
 def set_stick_dead(side, value):
-
     if isinstance(value, int) and not isinstance(value, bool):
         if 0 <= value <= 32767:
             match side:
@@ -62,6 +66,7 @@ def set_stick_dead(side, value):
 
 #   Used to manage the state of the controllers rumble motors
 
+#   TODO ~ This is also overengineering. Remove it
 motor_detail = {
     #   Define rumble speed - max 65535, min 0
     "left_strength": 0,
@@ -70,7 +75,7 @@ motor_detail = {
     "right_active": False
 }
 
-
+#   TODO ~ This is overengineering. Remove it
 #   set_vibration_strength is used to update the motor_detail dictionary, which
 #   in turn, is used to dictate how fast the controller motors operate. Unlike
 #   with the dead zones, vibration values are not immediately applied to the
@@ -82,7 +87,6 @@ motor_detail = {
 #   error  : TypeError is raised if the type value is not int
 #   error  : ValueError is raised if side is invalid or value exceeds the bounds
 def set_vibration_strength(side, value):
-
     global motor_detail
 
     if isinstance(value, int) and not isinstance(value, bool):
@@ -124,7 +128,6 @@ def get_battery():
 #   return : None
 #   error  : ValueError is raised when side is invalid
 def toggle_vibration(side):
-
     global motor_detail
 
     match side:
@@ -175,6 +178,9 @@ def toggle_vibration(side):
                              "\n'side' was " + str(side))
 
 
+
+
+
 #   Controller Logic Segment
 
 #   read_controller is responsible for pulling in new event information, and
@@ -189,64 +195,52 @@ def toggle_vibration(side):
 #   error  : ConnectionError is raised immediately following an XInputNotConnectedError
 #            to feedback to the main program loop that the controller is no
 #            longer connected and it should revert to 'discovery' mode
-def read_controller():
+def get_current_events():
+    #   TODO ~ Refactor to being class variables
+    #   TODO ~ Refactor documentation
+    global button_pressed, button_released, stick_events, trigger_events
 
-    #   TODO ~ Refactor this. Having a full copy of the model for every transaction
-    #   TODO ~ is not needed. Should just have a list for each group and return
-    #   TODO ~ a few distinct lists
-    #   Sentinel value that prevents needless event logging
-    an_event_occurred = False
+    #   Below conditional clears the event lists so that this cycle doesn't
+    #   generate duplicate event reports
+    if (len(button_released) + len(button_pressed) + len(trigger_events) +
+       len(stick_events)) > 0:
+        button_pressed.clear()
+        button_released.clear()
+        trigger_events.clear()
+        stick_events.clear()
 
     current_event = xbox.get_events()
 
-    #   Used to catch errors in the advent of a controller disconnect
     try:
         for event in current_event:
-
-            #   Button Press
+            #   Button Events
             if event.type == 3:
+                button_pressed.append(event.button)
+            elif event.type == 4:
+                button_released.append(event.button)
 
-                an_event_occurred = True
-                model.set_button_status(event.button, True)
-
-            #   Button Release
-            if event.type == 4:
-
-                an_event_occurred = True
-                model.set_button_status(event.button, False)
-
-            #   Trigger Event
-            if event.type == 5:
-
-                an_event_occurred = True
-
+            #   Trigger Events
+            elif event.type == 5:
                 if event.trigger == 0:
-                    model.set_trigger_offset("LEFT", event.value)
+                    trigger_events.append((event.trigger, event.value))
                 else:
-                    model.set_trigger_offset("RIGHT", event.value)
+                    trigger_events.append((event.trigger, event.value))
 
-            #   Stick Event
-            if event.type == 6:
-
-                an_event_occurred = True
-
+            #   Stick Events
+            elif event.type == 6:
                 if event.stick == 0:
-                    model.set_stick_position("LEFT", "X", event.x)
-                    model.set_stick_position("LEFT", "Y", event.y)
+                    stick_events.append((event.stick, (event.x, event.y)))
                 else:
-                    model.set_stick_position("RIGHT", "X", event.x)
-                    model.set_stick_position("RIGHT", "Y", event.y)
+                    stick_events.append((event.stick, (event.x, event.y)))
 
-        if an_event_occurred:
+        #   If the below conditional evaluates to true, then an event has been
+        #   generated for this cycle and should be processed out of process
+        if (len(button_released) + len(button_pressed) + len(trigger_events) +
+            len(stick_events)) > 1:
 
-            #   In the case of a new event - return the controller model
-            return model.get_model()
+            return button_pressed, button_released, trigger_events, stick_events
         else:
-            #   No event was generated this cycle - do not return the model
-            return None
+            return [], [], [], []
 
     except xbox.XInputNotConnectedError:
-
-        #   It's not appropriate to return a None value in the case of a
-        #   controller disconnect, so relay that the controller is not active
         raise ConnectionError("Controller has been disconnected!")

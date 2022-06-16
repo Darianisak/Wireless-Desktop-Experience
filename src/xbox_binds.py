@@ -6,41 +6,29 @@ class XboxBinds:
 
     current_profile = {
         "buttons": {
-            "a_pressed": "",
-            "a_released": "",
-            "b_pressed": "",
-            "b_released": "",
-            "x_pressed": "",
-            "x_released": "",
-            "y_pressed": "",
-            "y_released": "",
-            "start_pressed": "",
-            "start_released": "",
-            "back_pressed": "",
-            "back_released": ""
+            "A": 0,
+            "Y": 0,
+            "B": 0,
+            "X": 0,
+            "START": 0,
+            "BACK": 0,
+            "RIGHT_SHOULDER": 0,
+            "LEFT_SHOULDER": 0,
+            "RIGHT_THUMB": 0,
+            "LEFT_THUMB": 0,
+            "DPAD_DOWN": 0,
+            "DPAD_UP": 0,
+            "DPAD_RIGHT": 0,
+            "DPAD_LEFT": 0
         },
-        "shoulders": {
-            "left_pressed": "",
-            "left_released": "",
-            "right_pressed": "",
-            "right_released": ""
-        },
+
         "sticks": {
             "left_dead": 0,
             "right_dead": 0,
             "left_move": "",
             "right_move": ""
         },
-        "dpad": {
-            "up_pressed": "",
-            "up_released": "",
-            "down_pressed": "",
-            "down_released": "",
-            "left_pressed": "",
-            "left_released": "",
-            "right_pressed": "",
-            "right_released": ""
-        },
+
         "triggers": {
             "left_dead": 0,
             "right_dead": 0,

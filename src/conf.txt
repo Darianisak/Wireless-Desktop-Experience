@@ -3,10 +3,10 @@
 #   associated with an xbox controller
 
 !   buttons
-A                0
-Y                0
-B                0
-X                0
+A                left
+Y                middle
+B                enter
+X                right
 START            0
 BACK             0
 RIGHT_SHOULDER   0
@@ -33,3 +33,6 @@ right_press      0
 !   motors
 left_strength    0
 right_strength   0
+
+!   rumble
+A

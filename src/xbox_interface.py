@@ -236,7 +236,7 @@ def get_current_events():
         #   If the below conditional evaluates to true, then an event has been
         #   generated for this cycle and should be processed out of process
         if (len(button_released) + len(button_pressed) + len(trigger_events) +
-            len(stick_events)) > 1:
+            len(stick_events)) > 0:
 
             return button_pressed, button_released, trigger_events, stick_events
         else:

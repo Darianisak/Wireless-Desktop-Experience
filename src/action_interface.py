@@ -1,3 +1,6 @@
+import mouse as ms
+import keyboard as kb
+
 #   TODO ~ Create documentation
 class ActionInterface:
 
@@ -7,8 +10,11 @@ class ActionInterface:
         self.current_binds = bind_profile
         print(self.current_binds)
 
-    def do_button_press(self):
-        print("")
+    def do_button_press(self, arg):
+        if arg in ["left", "right", "middle"]:
+            ms.click(arg)
+        else:
+            kb.press_and_release(arg)
 
     def do_trigger_press(self):
         print("")

@@ -38,7 +38,8 @@ class XboxBinds:
         "motors": {
             "left_strength": 0,
             "right_strength": 0
-        }
+        },
+        "rumble": []
     }
 
     def read_binds(self, path: str):
@@ -64,6 +65,9 @@ class XboxBinds:
                 if current_set not in self.current_profile.keys():
                     raise KeyError("Malformed conf file @", current_set,
                                    "! Check that all super key names are correct!")
+            elif current_set == 'rumble':
+                #   TODO ~ Need to think about how to store the desired motor side
+                self.current_profile[current_set].append()
             elif len(file[line].split()) > 1:
                 #   Gets a specific button or trigger, as well as its action
                 trigger = file[line].split()[0]

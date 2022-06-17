@@ -36,7 +36,7 @@ def main_test():
             #   <---    PROCESS ACTIONS     --->
             for pressed_button in p_buttons:
                 currently_pressed.add(pressed_button)
-                print("fuck 1", pressed_button)
+                action.do_button_press(func.current_profile["buttons"][pressed_button])
 
             for released_button in r_buttons:
                 currently_pressed.remove(released_button)
@@ -48,6 +48,7 @@ def main_test():
             for stick_event in s_events:
                 print("fuck 4", stick_event)
             #   <---    END OF PROCESSING   --->
+            #print(currently_pressed)
 
         if end_message:
             print("\nController has been disconnected! Waiting for new connection...")

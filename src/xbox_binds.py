@@ -65,13 +65,15 @@ class XboxBinds:
                 if current_set not in self.current_profile.keys():
                     raise KeyError("Malformed conf file @", current_set,
                                    "! Check that all super key names are correct!")
-            elif current_set == 'rumble':
-                #   TODO ~ Need to think about how to store the desired motor side
-                self.current_profile[current_set].append()
+           # elif current_set == 'rumble':
+               # #   TODO ~ Need to think about how to store the desired motor side
+               # self.current_profile[current_set].append()
             elif len(file[line].split()) > 1:
-                #   Gets a specific button or trigger, as well as its action
+                #   Gets a specific button or trigger, as well as its action.
+                #   By using [1:] for the action, we are able to parse macros with
+                #   spaces
                 trigger = file[line].split()[0]
-                action = file[line].split()[1]
+                action = file[line].split()[1:]
                 if trigger not in self.current_profile[current_set].keys():
                     raise KeyError("Malformed conf file @", current_set, ":",
                                    trigger, "! Check that all sub keys are correct!")

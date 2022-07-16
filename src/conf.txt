@@ -10,13 +10,13 @@ X                right
 START            0
 BACK             0
 RIGHT_SHOULDER   0
-LEFT_SHOULDER    0
-RIGHT_THUMB      0
+LEFT_SHOULDER    alt
+RIGHT_THUMB      enter
 LEFT_THUMB       0
 DPAD_DOWN        test string
-DPAD_UP          0
-DPAD_RIGHT       0
-DPAD_LEFT        0
+DPAD_UP          shift
+DPAD_RIGHT       ctrl
+DPAD_LEFT        esc
 
 !   sticks
 left_dead        0

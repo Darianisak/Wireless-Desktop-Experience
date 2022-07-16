@@ -1,14 +1,22 @@
 import mouse as ms
 import keyboard as kb
+from ctypes import windll as os
+
 
 #   TODO ~ Create documentation
 class ActionInterface:
 
     current_binds = {}
+    modifiers = ["ctrl", "shift", "esc", "enter", "alt", "windows"]
+    screensize = {
+        "Width": 0,
+        "Height": 0
+    }
 
     def __init__(self, bind_profile: {}):
         self.current_binds = bind_profile
-        print(self.current_binds)
+        self.screensize["Width"] = os.user32.GetSystemMetrics(78)
+        self.screensize["Height"] = os.user32.GetSystemMetrics(79)
 
     def do_button_press(self, arg):
         if arg[0] in ["left", "right", "middle"]:
@@ -23,6 +31,7 @@ class ActionInterface:
         print("")
 
     def do_stick_movement(self):
+        ms.get_position()
         print("")
 
     def reformat_macro(self, macro: []):
@@ -34,14 +43,17 @@ class ActionInterface:
         :return: A formatted string
         """
         if len(macro) > 1:
-            #   Given an action that involves spaces, e.g., 'test string'
-            #   we parse each individual word to add '+'s, and then return the
-            #   output of concatenation via '+space+'
+            #   Formats multi argument actions for use by keyboard.lib
             tmp = []
             for arg in macro:
-                tmp.append(arg.replace("", "+")[1:-1])
+                if arg in self.modifiers:
+                    tmp.append(arg)
+                else:
+                    tmp.append(arg.replace("", "+")[1:-1])
             return "+space+".join(tmp)
         else:
-            #   Format single argument actions
-            return macro[0].replace("", "+")[1:-1]
+            if macro[0] in self.modifiers:
+                return macro[0]
+            else:
+                return macro[0].replace("", "+")[1:-1]
 

@@ -40,12 +40,12 @@ def main_test():
 
             for released_button in r_buttons:
                 currently_pressed.remove(released_button)
-                print("fuck 2", released_button)
 
             for trigger_event in t_events:
                 print("fuck 3", trigger_event)
 
             for stick_event in s_events:
+                action.do_stick_movement()
                 print("fuck 4", stick_event)
             #   <---    END OF PROCESSING   --->
             #print(currently_pressed)
